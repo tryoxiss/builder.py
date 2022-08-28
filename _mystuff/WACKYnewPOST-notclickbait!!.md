@@ -2,6 +2,8 @@
 background_image: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpics.me.me%2Fthumb_3-551-lte-hot-dog-eating-mask-only-used-once-20-46852433.png&f=1&nofb=1
 date: 00-jul-28000
 creator: khaim 'khaim0919' lesbian
+language: python
+line-numbers: false
 ---
 <!-- This should be converted into HTML and go into /blog when running builder.py --> 
 # This article is dumb
@@ -43,7 +45,9 @@ Now we need to test escapes, this should have \*astrisks\* around it, and \*\*TH
 
 ###### And six! {six}
 
-####### But heading 7 dosent exist, so this should be a paragraph. 
+## this shouldnt error anymore {yeah-probably-wont}
+
+# and heading one apparently again should break some stuff maybe?
 
 \# this should start with a hashtag
 
@@ -71,7 +75,7 @@ this is
 
 and here is another one 
 
-```python
+```
 # now this code block is written in python: 
 
 import json 

@@ -2,6 +2,7 @@
 background_image: https://wallpapercave.com/wp/wp3711322.png
 date: 26-aug-2022
 creator: madeline 'tryoxiss' lesbian 
+line-numbers: true
 ---
 <!-- This should be converted into HTML and go into /blog when running builder.py --> 
 # This article is an unhinged info dump: mostly about cool shows I watch
@@ -9,7 +10,7 @@ creator: madeline 'tryoxiss' lesbian
 
 /!\ Full spoiler warning for *hilda* and *lorem ipsum (pages 1-55!)* /!\
 
-So stuff and things and *all the stuff* and *all the things* are just really amazing all the time. Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid consequatur cum explicabo culpa sapiente eius, amet odit molestiae autem iusto assumenda architecto natus tempore aut dignissimos temporibus maxime maiores sunt, molestias nemo ab at veniam? Minima veritatis explicabo placeat. Nam vel doloremque reiciendis minima?
+So stuff and things and *all the stuff* and *all the things* are just really amazing all the time. Lorem ipsum dolor sit amet consectetur a*d*i***pisicing*** elit. Aliquid ***consequatur cum explicabo culpa sapiente eius, amet odit molestiae autem iusto assumenda architecto natus tempore aut dignissimos*** temporibus maxime maiores sunt, molestias nemo ab at veniam? Minima veritatis explicabo placeat. Nam vel doloremque reiciendis minima?
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. **Eum, voluptates saepe?** Autem, ducimus amet, dignissimos totam reprehenderit aut impedit voluptas exercitationem similique, sequi assumenda iure excepturi soluta doloremque consectetur corporis non tempore __voluptatibus__.
 

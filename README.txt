@@ -1,3 +1,7 @@
+
+Website builder for use by Shefie Games Studios and the general public
+v. 0.0.0.1
+
 FOR HTML EDITORS:
 
     In '<title>' always include '{title}' to add the title, otherwise it will be missed entirely. 
@@ -10,4 +14,17 @@ FOR HTML EDITORS:
 
     WORK IN PROGRESS: 'Use {author_date_name} to display the authors name, the date, and time of postage. Though will adapt if there is no author name.'
     
+ADD THIS (blocks)
+#                   if '- ``' in markdown_list[j]: # bugfix
+#                       pass
+#                   if '- ' in markdown_list[j]: # unordered list item
+#                       pass
+
+AND THESE (in line)
+#                    if '[' and '(' in markdown_list[j]: # embeded link
+#                        pass
+#                    if '[' or '[[' in markdown_list[j]: # wiki link
+#                        pass
+
+
 FOR MARKDOWN EDITORS:
