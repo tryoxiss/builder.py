@@ -1,6 +1,3 @@
-from asyncio.windows_events import NULL
-
-
 markdown_names_list = open('__templates/build_list.txt', 'r')
 markdown_names_list = markdown_names_list.readlines()
 for i in range(len(markdown_names_list)):
@@ -8,9 +5,6 @@ for i in range(len(markdown_names_list)):
 
 base_html = open('__templates/base.html', 'r')  # this file needs to also exist in the directory, its what we will copy code from while building the new file. it is also read only
 base_html_list = base_html.readlines()
-
-
-
 
 percent = '\033[90m'
 addinfo = '\033[90m'
@@ -27,6 +21,31 @@ files_to_delete = len(markdown_names_list)
 files_to_build = len(markdown_names_list)
 files_built = 0
 percent_complete = 0
+
+
+def styletag_warning(style_type):
+    print(f'{warning}WARNING:{body} file {impinfo}{markdown_names_list[n]}{body} on line {impinfo}{j}{body} there is only an opening set of {style_type}, it will show up as itself instead of turning into the appropriate style tags.')
+
+def styletag_change(current_line, md_tag, style_type, html_tag, html_closing_tag, error_byte):
+    current_count = 0
+    for k in range(0,40):
+        if current_count == 1 and f'{md_tag}' in current_line:
+            current_line = current_line.replace(f'{md_tag}', f'{html_closing_tag}', 1)
+            current_count = 0
+        elif current_count == 1 and f'{md_tag}' not in current_line:
+            styletag_warning(style_type)
+            current_line = error_byte.join(current_line.rsplit(f'{html_tag}', 1))
+            break
+        elif f'{md_tag}' in current_line:
+            current_line = current_line.replace(f'{md_tag}', f'{html_tag}', 1)
+            current_count += 1
+    return current_line
+
+
+
+
+
+
 
 print(f'{addinfo}INFO: {body} builder.py will DELETE and then REBUILD ALL files.')
 print(f'{fatal}{files_to_delete}{body} will be {fatal}DELETED{body}')
@@ -90,9 +109,14 @@ for n in range(len(markdown_names_list)):
             header_one_count = 0
             temp_count = 0
             for j in range(start_pos, len(markdown_list)):
-                current_line = markdown_list[j]
+                if markdown_list[j].startswith('\n'):
+                    pass
+                else: 
+                    current_line = "<p>" + markdown_list[j].rstrip('\n') + "</p>\n"
                 if temp_count > 0:
-                    if '```' in markdown_list[j]:
+                    if '```' in markdown_list[j+1]:
+                        html_export.write(markdown_list[j].replace('\n', ''))
+                    elif '```' in markdown_list[j]:
                         html_export.write('</code></pre>\n')
                         temp_count = 0
                         continue
@@ -106,23 +130,43 @@ for n in range(len(markdown_names_list)):
                     continue
                 elif '###### ' in markdown_list[j]: # header 6
                     current = ((markdown_list[j].lstrip('###### ')).rstrip('\n')).split(' {') # 'title', 'id}'
-                    html_export.write('         <h6 id="' + current[1].rstrip('}') + '">' + current[0] + '</h6>\n')
+                    if len(current) >= 2:
+                        html_export.write('<h6 id="' + current[1].rstrip('}') + '">' + current[0] + '</h6>\n')
+                    else: 
+                        print(f'{warning}WARNING:{body} file {impinfo}{markdown_names_list[n]}{body} on line {impinfo}{j} does not have a header ID.')
+                        html_export.write('<h6>' + current[0] + '</h6>\n')
                     continue
                 elif '##### ' in markdown_list[j]: # header 5
                     current = ((markdown_list[j].lstrip('##### ')).rstrip('\n')).split(' {') # 'title', 'id}'
-                    html_export.write('         <h5 id="' + current[1].rstrip('}') + '">' + current[0] + '</h5>\n')
+                    if len(current) >= 2:
+                        html_export.write('<h5 id="' + current[1].rstrip('}') + '">' + current[0] + '</h5>\n')
+                    else: 
+                        print(f'{warning}WARNING:{body} file {impinfo}{markdown_names_list[n]}{body} on line {impinfo}{j} does not have a header ID.')
+                        html_export.write('<h5>' + current[0] + '</h5>\n')
                     continue
                 elif '#### ' in markdown_list[j]: # header 4
                     current = ((markdown_list[j].lstrip('#### ')).rstrip('\n')).split(' {') # 'title', 'id}'
-                    html_export.write('         <h4 id="' + current[1].rstrip('}') + '">' + current[0] + '</h4>\n')
+                    if len(current) >= 2:
+                        html_export.write('<h4 id="' + current[1].rstrip('}') + '">' + current[0] + '</h4>\n')
+                    else: 
+                        print(f'{warning}WARNING:{body} file {impinfo}{markdown_names_list[n]}{body} on line {impinfo}{j} does not have a header ID.')
+                        html_export.write('<h4>' + current[0] + '</h4>\n')
                     continue
                 elif '### ' in markdown_list[j]: # header 3
                     current = ((markdown_list[j].lstrip('### ')).rstrip('\n')).split(' {') # 'title', 'id}'
-                    html_export.write('         <h3 id="' + current[1].rstrip('}') + '">' + current[0] + '</h3>\n')
+                    if len(current) >= 2:
+                        html_export.write('<h3 id="' + current[1].rstrip('}') + '">' + current[0] + '</h3>\n')
+                    else: 
+                        print(f'{warning}WARNING:{body} file {impinfo}{markdown_names_list[n]}{body} on line {impinfo}{j} does not have a header ID.')
+                        html_export.write('<h3>' + current[0] + '</h3>\n')
                     continue
                 elif '## ' in markdown_list[j]: # header 2
                     current = ((markdown_list[j].lstrip('## ')).rstrip('\n')).split(' {') # 'title', 'id}'
-                    html_export.write('         <h2 id="' + current[1].rstrip('}') + '">' + current[0] + '</h2>\n')
+                    if len(current) >= 2:
+                        html_export.write('<h2 id="' + current[1].rstrip('}') + '">' + current[0] + '</h2>\n')
+                    else: 
+                        print(f'{warning}WARNING:{body} file {impinfo}{markdown_names_list[n]}{body} on line {impinfo}{j} does not have a header ID.')
+                        html_export.write('<h2>' + current[0] + '</h2>\n')
                     continue
                 elif '# ' in markdown_list[j] and '\# ' not in markdown_list[j]: # header 1
                     header_one_count += 1
@@ -131,10 +175,10 @@ for n in range(len(markdown_names_list)):
                         continue
                     continue
                 elif markdown_list[j].startswith('> '): # blockquote
-                    html_export.write("        <blockquote>" + (markdown_list[j].lstrip('> ')).rstrip(' \n') + "</blockquote>\n")
+                    html_export.write("<blockquote>" + (markdown_list[j].lstrip('> ')).rstrip(' \n') + "</blockquote>\n")
                     continue
                 elif '---' in markdown_list[j]: # horisontal rule
-                    html_export.write("        <hr>\n")
+                    html_export.write("<hr>\n")
                     continue
                 elif '```' in markdown_list[j]: # codeblock
                     temp_count += 1
@@ -144,108 +188,27 @@ for n in range(len(markdown_names_list)):
                         split_image = markdown_list[j].split(']')
                         image_link = (split_image[1].lstrip('(')).rstrip(') \n')
                         alt = split_image[0].lstrip("![")
-                        html_export.write(f'        <img src="{image_link}" alt="{alt}">\n')
+                        html_export.write(f'<img src="{image_link}" alt="{alt}">\n')
                         continue
                 elif markdown_list[j] != '\n':
-                    current_line = "        <p>" + markdown_list[j].rstrip('\n') + "</p>\n"
+                    current_line = "<p>" + markdown_list[j].rstrip('\n') + "</p>\n"
 
                     # START INLINES
-                    current_count = 0
-                    for k in range(0,99): # bold and italics
-                        if '***' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('***', '<b><i>', 1)
-                                current_line = current_line.replace('***', '</i></b>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # bold
-                        if '**' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('**', '<b>', 1)
-                                current_line = current_line.replace('**', '</b>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # italics
-                        if '*' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('*', '<i>', 1)
-                                current_line = current_line.replace('*', '</i>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # underline
-                        if '__' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('__', '<u>', 1)
-                                current_line = current_line.replace('__', '</u>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # inline-codeblock
-                        if '`' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('`', '<code>', 1)
-                                current_line = current_line.replace('`', '</code>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # strikethrough
-                        if '~~' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('~~', '<strike>', 1)
-                                current_line = current_line.replace('~~', '</strike>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # mathmatical formula (will change at some point)
-                        if '$$' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('$$', '<code>', 1)
-                                current_line = current_line.replace('$$', '</code>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # spoiler
-                        if '||' in markdown_list[j]:
-                            if current_count == 2:
-                                current_line = current_line.replace('||', '<spoiler>', 1)
-                                current_line = current_line.replace('||', '</spoiler>', 1)
-                                current_count = 0
-                                continue
-                            else:
-                                current_count += 1
-                                continue
-                    current_count = 0
-                    for k in range(0,99): # bold and italics
+                    current_line = styletag_change(current_line,'**','bold','<b>', '</b>','⒝')
+                    current_line = styletag_change(current_line,'*','italics','<i>','</i>','⒤')
+                    current_line = styletag_change(current_line,'__','underline','<u>','</u>','⒟')
+                    current_line = styletag_change(current_line,'``','inline-codeblock','<code>','</code>','⒞')
+                    current_line = styletag_change(current_line,'`','inline-codeblock','<code>','</code>','⒞')
+                    current_line = styletag_change(current_line,'~~','strikethough','<s>','</s>','⒳')
+                    current_line = styletag_change(current_line,'$$','mathmatical formula','<span class="math">','</span>','⒨')
+                    current_line = styletag_change(current_line,'||','spoiler','<spoiler>','</spoiler>','⒣')
+
+                    for k in range(0,99): # em dash
                         if '--' in markdown_list[j]:
                             current_line = current_line.replace('--', '—', 1)
-                            continue
-                        continue
-                    continue 
-                html_export.write(current_line)
+                    
+                    current_line = current_line.replace('⒝', '**').replace('⒤', '*').replace('⒟', '__').replace('⒞', '`').replace('⒳', '~~').replace('⒨', '$$').replace('⒣', '||') # replace ⒪ ⒝ ⒤ ⒟ ⒞ ⒳ ⒨ ⒣ with respective '***' '**' '*' '__' '`' '~~' '$$' '||'
+                    html_export.write(current_line)
                 continue
         
         else: 

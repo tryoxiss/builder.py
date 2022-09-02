@@ -122,4 +122,6 @@ a_function(number)
 </pre></code>
 ```
 
+this is an email, it should be obfuscated with HTML codes to make it work the same but not be suspetible to screen readers: <tryoxiss@gmail.com>. And this is a HTML <span class="hilight">SPAN Element</span>, it should be added as is but throw a warning. 
+
 and I think thats about it for this snazzy little thing!!

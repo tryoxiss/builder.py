@@ -85,6 +85,17 @@ table {
     color: var(--clr-white); 
 }
 
+s { 
+    text-decoration: line-through 2px;
+    /* color: grey;  MAYBE THIS */
+    /* border: 2px solid red;  */
+}
+
+u { 
+    text-decoration: none;
+    border-bottom: 1px solid; 
+}
+
 table th { background-color: var(--clr-hero-700); }
 td { border-bottom: 1px solid var(--clr-hero-700); }
 td:hover { border-bottom: 1px solid var(--clr-hero-300); }
