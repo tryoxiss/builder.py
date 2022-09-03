@@ -1,11 +1,4 @@
-
-
 __version__ = 'v0.0.0.1'
-
-# CONFIG: 
-anti_auto_pilot: False
-covert_emdash: True
-minfiy_output: True
 
 # open buildlist and reformat
 markdown_names_list = open('__templates/build_list.txt', 'r').readlines()
@@ -127,6 +120,8 @@ for n in range(len(markdown_names_list)):
 
         # replaces {content} with the content specified after the front matter in the md document
         elif '{content}' in base_html_list[i]:
+            
+            # finds the end of the front matter
             temp_count = 0
             for j in range(len(markdown_list)):
                 if '---' in markdown_list[j]:
@@ -136,11 +131,13 @@ for n in range(len(markdown_names_list)):
                     start_pos = j
                     break
 
-            # 
+            # these variables are used throughout the script and cannot be set to 0 as they are a constant in the exchange to html and warnings
             header_one_count = 0
             temp_count = 0
+            # starts converting lines from md to html in document **this is the main part that edits the script**
             for j in range(start_pos, len(markdown_list)):
                 
+                # if the line is empty then skip it, otherwise set up the line to be printed
                 if markdown_list[j].startswith('\n'):
                     pass
                 else: 
@@ -211,3 +208,35 @@ for n in range(len(markdown_names_list)):
 # print the success and exit with a code of 0 (success)
 print(f'{success} --PROCESS FINISHED!-- {body}')
 exit(0) # 0 = success
+
+
+
+
+
+
+# × 
+# At some point I want to make mathmatical forumulas display how they would be written, for example 1+2(3 / (2 / 3) would display as)
+#  1 + 2 x ( 3 )
+#           ---
+#           22
+#           ---
+#           3.5
+# but like, actually nice and not plain text obviously. 
+# also make multiplcation either the cirlce or the symbol, probably the circle. 
+
+
+# -==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= THIS IS FOR AUTHOR_DATE_READTIME (for when I do it later)
+        # elif '{author_date_readtime}' in base_html_list[i]:
+        #     for j in range(0, len(markdown_list)):
+        #         if 'author=' in markdown_list[j]:
+        #             author_unedited = markdown_list[j].rstrip(" \n")
+        #             author = author_unedited.lstrip("author=")
+        #             continue
+        #         elif 'readtime=' in markdown_list[j]:
+        #             readtime = (markdown_list[j].lstrip("readtime=")).rstrip(" \n")
+        #             continue
+        #     _date = markdown_date.replace('-', ' ')
+        #     if author_unedited == 'author=':
+        #         html_export.write(base_html_list[i].replace('{author_date_readtime}', f'Posted on {_date}. Read time is about {readtime}'))
+        #     else:
+        #         html_export.write(base_html_list[i].replace('{author_date_readtime}', f'Posted by {author} on {_date}. About a {readtime}'))
