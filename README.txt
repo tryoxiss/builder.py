@@ -17,6 +17,8 @@ FOR HTML EDITORS:
 CONTROL BYTES:
 ⒪ ⒝ ⒤ ⒟ ⒞ ⒳ ⒨ ⒣ with respective '***' '**' '*' '__' '`' '~~' '$$' '||'
 
+⒭ is used in find and replace and  as to stop tags with backslashes(\\) from being replaced
+
 
 FOR MARKDOWN EDITORS:
 
@@ -38,3 +40,5 @@ FOR KHAIM:
     #                        pass
     #                    if '[' or '[[' in markdown_list[j]: # wiki link
     #                        pass
+
+    ADD {current_artical}

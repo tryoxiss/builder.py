@@ -6,6 +6,16 @@ tittle: How NOT to write markdown
 line-numbers: true
 ---
 
+one: \
+
+two: \\
+
+three: \\\
+
+four: \\\\
+
+five: \\\\\
+
 # How NOT to write markdown 
 Markdown is a commonly used markup language because it is *****simple__ and __ **easy** to* use. ***. But there are a """few""" errors people make regularly and here they are. 
 
