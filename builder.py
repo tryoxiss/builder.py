@@ -1,4 +1,11 @@
+
+
 __version__ = 'v0.0.0.1'
+
+# CONFIG: 
+anti_auto_pilot: False
+covert_emdash: True
+minfiy_output: True
 
 # open buildlist and reformat
 markdown_names_list = open('__templates/build_list.txt', 'r').readlines()
@@ -204,35 +211,3 @@ for n in range(len(markdown_names_list)):
 # print the success and exit with a code of 0 (success)
 print(f'{success} --PROCESS FINISHED!-- {body}')
 exit(0) # 0 = success
-
-
-
-
-
-
-# × 
-# At some point I want to make mathmatical forumulas display how they would be written, for example 1+2(3 / (2 / 3) would display as)
-#  1 + 2 x ( 3 )
-#           ---
-#           22
-#           ---
-#           3.5
-# but like, actually nice and not plain text obviously. 
-# also make multiplcation either the cirlce or the symbol, probably the circle. 
-
-
-# -==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= THIS IS FOR AUTHOR_DATE_READTIME (for when I do it later)
-        # elif '{author_date_readtime}' in base_html_list[i]:
-        #     for j in range(0, len(markdown_list)):
-        #         if 'author=' in markdown_list[j]:
-        #             author_unedited = markdown_list[j].rstrip(" \n")
-        #             author = author_unedited.lstrip("author=")
-        #             continue
-        #         elif 'readtime=' in markdown_list[j]:
-        #             readtime = (markdown_list[j].lstrip("readtime=")).rstrip(" \n")
-        #             continue
-        #     _date = markdown_date.replace('-', ' ')
-        #     if author_unedited == 'author=':
-        #         html_export.write(base_html_list[i].replace('{author_date_readtime}', f'Posted on {_date}. Read time is about {readtime}'))
-        #     else:
-        #         html_export.write(base_html_list[i].replace('{author_date_readtime}', f'Posted by {author} on {_date}. About a {readtime}'))
