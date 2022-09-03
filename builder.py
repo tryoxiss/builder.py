@@ -1,5 +1,10 @@
 __version__ = 'v0.0.0.1'
 
+# config
+anti_auto_pilot: True
+produce_minfified: True 
+convert_emdash: True
+
 # open buildlist and reformat
 markdown_names_list = open('__templates/build_list.txt', 'r').readlines()
 for i in range(len(markdown_names_list)):
