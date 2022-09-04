@@ -42,3 +42,13 @@ FOR KHAIM:
     #                        pass
 
     ADD {current_artical}
+
+    ADD ?
+    # At some point I want to make mathmatical forumulas display how they would be written, for example 1+2(3 / (2 / 3) would display as)
+    #  1 + 2 x ( 3 )
+    #           ---
+    #           22
+    #           ---
+    #           3.5
+    # but like, actually nice and not plain text obviously. 
+    # also make multiplcation either the cirlce or the symbol, probably the circle. 

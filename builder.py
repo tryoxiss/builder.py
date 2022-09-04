@@ -1,10 +1,5 @@
 __version__ = 'v0.0.0.1'
 
-# config
-anti_auto_pilot: True
-produce_minfified: True 
-convert_emdash: True
-
 # open buildlist and reformat
 markdown_names_list = open('__templates/build_list.txt', 'r').readlines()
 for i in range(len(markdown_names_list)):
@@ -24,7 +19,6 @@ impinfo = '\033[97m'
 body = '\033[0m'
 
 # variables for console output
-ABORTED = False
 files_to_delete = len(markdown_names_list)
 files_to_build = len(markdown_names_list)
 files_built = 0
@@ -104,7 +98,7 @@ for n in range(len(markdown_names_list)):
                     break
 
         # replaces {h1} with the first md header for the proper title of the html file, also adds the text after the colon if applicable
-        elif '{h1}' in base_html_list[i]:
+        if '{h1}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
                 if '# ' in markdown_list[j]:
                     if ':' in markdown_list[j]:
@@ -115,7 +109,7 @@ for n in range(len(markdown_names_list)):
                         break
 
         # WIP (language support for codeblocks)
-        elif '{language}' in base_html_list[i]:
+        if '{language}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
                 if 'language: ' in markdown_list[j]:
                     language_current = (markdown_list[j].lstrip('language: ')).rstrip('\n')
@@ -124,7 +118,7 @@ for n in range(len(markdown_names_list)):
                     html_export.write((base_html_list[i].replace('{language}', language_current)).replace('{line-numbers}', 'line-numbers'))
 
         # replaces {content} with the content specified after the front matter in the md document
-        elif '{content}' in base_html_list[i]:
+        if '{content}' in base_html_list[i]:
             
             # finds the end of the front matter
             temp_count = 0
@@ -142,16 +136,15 @@ for n in range(len(markdown_names_list)):
             # starts converting lines from md to html in document **this is the main part that edits the script**
             for j in range(start_pos, len(markdown_list)):
                 
-                # if the line is empty then skip it, otherwise set up the line to be printed
-                if markdown_list[j].startswith('\n'):
-                    pass
-                else: 
-                    current_line = "<p>" + markdown_list[j].rstrip('\n') + "</p>\n"
+                # if the line is empty then skip it
+                if markdown_list[j].startswith('\n'): continue
                 
+                # if the line has a comment then skip it
                 if '<!--' and '-->' in markdown_list[j]: continue # we continue as we do not want to print anything that has a comment
 
+                # if the line has ``` start a code block, when it finds another after cycling through multiple lines and printing them raw it exits the codeblock
                 elif temp_count > 0:
-                    if '```' in markdown_list[j+1]:
+                    if '```' in markdown_list[j+1]: # handy trick to find out if the next line is the end of a codeblock to remove the \n at the end
                         html_export.write(markdown_list[j].rstrip('\n'))
                     elif '```' in markdown_list[j]:
                         html_export.write('</code></pre>\n')
@@ -164,6 +157,7 @@ for n in range(len(markdown_names_list)):
                     temp_count += 1
                     html_export.write('<pre><code class="language-' + (markdown_list[j].lstrip('``` ')).rstrip(' \n') + '">')
                 
+                # handles headers for the current line, if above 6 it signals a warning
                 elif '####### ' in markdown_list[j]: print(f'{warning}WARNING: {body}The document {impinfo}' + markdown_names_list[n].rstrip('\n') + f'{body} on line {impinfo}' + str(j) + f'{body} has a heading larger than 6, it will not be included.')
                 elif '###### ' in markdown_list[j]: header_check('######', 6)
                 elif '##### ' in markdown_list[j]: header_check('#####', 5)
@@ -171,24 +165,31 @@ for n in range(len(markdown_names_list)):
                 elif '### ' in markdown_list[j]: header_check('###', 3)
                 elif '## ' in markdown_list[j]: header_check('##', 2)
                 
+                # a document should only ever have 1 header one. more can cause significant problems and as such a warning is placed
                 elif '# ' in markdown_list[j] and '\# ' not in markdown_list[j]: # header 1
                     header_one_count += 1
                     if header_one_count >= 2:
                         print(f'{warning}WARNING: {body}The document {impinfo}' + markdown_names_list[n].rstrip('\n') + f'{body} on line {impinfo}' + str(j) + f'{body} has more than one heading 1, the seccond one will not be included')
                 
+                # if a line starts with '> ' then create it as a blockquote and do not do any formating
                 elif markdown_list[j].startswith('> '): html_export.write("<blockquote>" + (markdown_list[j].lstrip('> ')).rstrip(' \n') + "</blockquote>\n")
-                elif '---' in markdown_list[j]: html_export.write("<hr>\n") # horisontal rule
-               
+                
+                # if a line starts with '---' then create it as a blockquote and do not do any formating
+                elif markdown_list[j].startswith('---'): html_export.write("<hr>\n") # horisontal rule
+
+                # if a line has an image requested, use the <img> tag to write the image source
                 elif '![' in markdown_list[j] and '\![' not in markdown_list[j]: # image
                         split_image = markdown_list[j].split(']')
                         image_link = (split_image[1].lstrip('(')).rstrip(') \n')
                         alt = split_image[0].lstrip("![")
                         html_export.write(f'<img src="{image_link}" alt="{alt}">\n')
                 
+                # start the inlines and prepare the current_line if no block-level elements are started
                 elif markdown_list[j] != '\n':
+                    # prepare the line for inline editing
                     current_line = "<p>" + markdown_list[j].rstrip('\n') + "</p>\n"
                     
-                    # start of inline styletag changes and find and replace section
+                    # inline styletag changes
                     current_line = styletag_change(current_line,'**','bold','<b>', '</b>','⒝')
                     current_line = styletag_change(current_line,'*','italics','<i>','</i>','⒤')
                     current_line = styletag_change(current_line,'__','underline','<u>','</u>','⒟')
@@ -198,14 +199,17 @@ for n in range(len(markdown_names_list)):
                     current_line = styletag_change(current_line,'$$','mathmatical formula','<span class="math">','</span>','⒨')
                     current_line = styletag_change(current_line,'||','spoiler','<spoiler>','</spoiler>','⒣')
 
+                    # inline replacements
                     current_line = find_replace(current_line, '--', '—')
                     current_line = find_replace(current_line, '\\', '')
 
+                    # replacing control bytes with proper md tag
                     current_line = current_line.replace('⒝', '**').replace('⒤', '*').replace('⒟', '__').replace('⒞', '`').replace('⒳', '~~').replace('⒨', '$$').replace('⒣', '||') # replace ⒪ ⒝ ⒤ ⒟ ⒞ ⒳ ⒨ ⒣ with respective '***' '**' '*' '__' '`' '~~' '$$' '||'
                     html_export.write(current_line)
         else: 
             html_export.write(base_html_list[i])
     
+    # print successful builds and percentage complete to console to allow player to confirm it is running
     files_built += 1
     percent_complete = (files_built / files_to_build * 100).__round__(1)
     print(f'{success}{files_built}{addinfo}/{success}{files_to_build}{body} Built {addinfo}({percent_complete}%){body}')
@@ -213,35 +217,3 @@ for n in range(len(markdown_names_list)):
 # print the success and exit with a code of 0 (success)
 print(f'{success} --PROCESS FINISHED!-- {body}')
 exit(0) # 0 = success
-
-
-
-
-
-
-# × 
-# At some point I want to make mathmatical forumulas display how they would be written, for example 1+2(3 / (2 / 3) would display as)
-#  1 + 2 x ( 3 )
-#           ---
-#           22
-#           ---
-#           3.5
-# but like, actually nice and not plain text obviously. 
-# also make multiplcation either the cirlce or the symbol, probably the circle. 
-
-
-# -==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= THIS IS FOR AUTHOR_DATE_READTIME (for when I do it later)
-        # elif '{author_date_readtime}' in base_html_list[i]:
-        #     for j in range(0, len(markdown_list)):
-        #         if 'author=' in markdown_list[j]:
-        #             author_unedited = markdown_list[j].rstrip(" \n")
-        #             author = author_unedited.lstrip("author=")
-        #             continue
-        #         elif 'readtime=' in markdown_list[j]:
-        #             readtime = (markdown_list[j].lstrip("readtime=")).rstrip(" \n")
-        #             continue
-        #     _date = markdown_date.replace('-', ' ')
-        #     if author_unedited == 'author=':
-        #         html_export.write(base_html_list[i].replace('{author_date_readtime}', f'Posted on {_date}. Read time is about {readtime}'))
-        #     else:
-        #         html_export.write(base_html_list[i].replace('{author_date_readtime}', f'Posted by {author} on {_date}. About a {readtime}'))
