@@ -1,6 +1,9 @@
 __version__ = 'v0.0.0.1'
 
 # open buildlist and reformat
+from glob import escape
+
+
 markdown_names_list = open('__templates/build_list.txt', 'r').readlines()
 for i in range(len(markdown_names_list)):
     markdown_names_list[i] = markdown_names_list[i].rstrip('\n')
@@ -88,13 +91,18 @@ for n in range(len(markdown_names_list)):
     # starts going through the template file line by line to replace the feilds in question
     for i in range(len(base_html_list)):
 
-        # replaces {title} with the proper title, as well as looking for the background image to place it in as well
-        if '{title}' in base_html_list[i]:
-            html_export.write(base_html_list[i].replace('{title}', markdown_names_list[n].replace('-', ' '))) # remove - and replace with ' '
-        elif '{background_image_url}' in base_html_list[i]:
+        current_line_html = base_html_list[i]
+
+#         replaces {title} with the proper title, as well as looking for the background image to place it in as well
+#        if '{title}' in base_html_list[i]:
+#            for j in range(0, len(markdown_list)):
+#                if '# ' in markdown_list[j]:
+#                    current_line_html.replace('{title}', markdown_list[j].replace('# ', ''))
+#                    break
+        if '{background_image_url}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
                 if 'background_image: ' in markdown_list[j]:
-                    html_export.write(base_html_list[i].replace('{background_image_url}', (markdown_list[j].lstrip('background_image: ')).rstrip(") \n")))
+                    current_line_html = current_line_html.replace('{background_image_url}', (markdown_list[j].lstrip('background_image: ')).rstrip(") \n"))
                     break
 
         # replaces {h1} with the first md header for the proper title of the html file, also adds the text after the colon if applicable
@@ -102,10 +110,10 @@ for n in range(len(markdown_names_list)):
             for j in range(0, len(markdown_list)):
                 if '# ' in markdown_list[j]:
                     if ':' in markdown_list[j]:
-                        html_export.write((base_html_list[i].replace('{h1}',(markdown_list[j].lstrip("# ")).split(': ',1)[0])).replace('{aft_colon}',': ' + (markdown_list[j].split(': ',1)[1].rstrip('\n'))))
+                        current_line_html = current_line_html.replace('{h1}',(markdown_list[j].lstrip("# ")).split(': ',1)[0]).replace('{aft_colon}',': ' + (markdown_list[j].split(': ',1)[1].rstrip('\n')))
                         break
                     else:
-                        html_export.write((base_html_list[i].replace('{h1}',((markdown_list[j].lstrip("# ")).rstrip('\n')))).replace('<span>{aft_colon}</span>',''))
+                        current_line_html = current_line_html.replace('{h1}',((markdown_list[j].lstrip("# ")).rstrip('\n'))).replace('<span>{aft_colon}</span>','')
                         break
 
         # WIP (language support for codeblocks)
@@ -115,7 +123,7 @@ for n in range(len(markdown_names_list)):
                     language_current = (markdown_list[j].lstrip('language: ')).rstrip('\n')
             for j in range(0, len(markdown_list)):
                 if 'line-numbers: true' in markdown_list[j]:
-                    html_export.write((base_html_list[i].replace('{language}', language_current)).replace('{line-numbers}', 'line-numbers'))
+                    current_line_html = current_line_html.replace('{language}', language_current).replace('{line-numbers}', 'line-numbers')
 
         # replaces {content} with the content specified after the front matter in the md document
         if '{content}' in base_html_list[i]:
@@ -205,9 +213,9 @@ for n in range(len(markdown_names_list)):
 
                     # replacing control bytes with proper md tag
                     current_line = current_line.replace('⒝', '**').replace('⒤', '*').replace('⒟', '__').replace('⒞', '`').replace('⒳', '~~').replace('⒨', '$$').replace('⒣', '||') # replace ⒪ ⒝ ⒤ ⒟ ⒞ ⒳ ⒨ ⒣ with respective '***' '**' '*' '__' '`' '~~' '$$' '||'
-                    html_export.write(current_line)
+                    current_line_html += current_line
         else: 
-            html_export.write(base_html_list[i])
+            html_export.write(current_line_html)
     
     # print successful builds and percentage complete to console to allow player to confirm it is running
     files_built += 1
