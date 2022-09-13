@@ -64,6 +64,21 @@ def find_replace(current_line, md_tag, text_tag): # finds and replaces specified
     current_line = current_line.replace('⒭', f'{md_tag}')
     return current_line
 
+def span_handler(current_line): 
+    pass
+
+    if '](' and '://' in current_line: 
+        pass
+
+    # images (url): ![hover text](link)
+    # links (url): [clickable text](url "hover text")
+    # ABBR (text): [text to be hovered]("hover text")
+    # 
+    # you can also use IDs by putting [first text][id]
+    # for images: 
+    # [id]: https://example.com/image.png     -- CAN BE IGNORED, DONT USE IDs FOR IMAGES (the ! is specified on the image using the ID, e.g. ![image][id])
+    # [id]: https://example.com/ "hover text" -- Link
+    # [id]: "hover text"                      -- ABBR
 
 # This block asks the user if they want to start the builder giving information of what it will do
 print(f'{addinfo}INFO: {body} builder.py will DELETE and then REBUILD ALL files.')
@@ -93,7 +108,7 @@ for n in range(len(markdown_names_list)):
 
         current_line_html = base_html_list[i]
 
-#         replaces {title} with the proper title, as well as looking for the background image to place it in as well
+#        # replaces {title} with the proper title, as well as looking for the background image to place it in as well
 #        if '{title}' in base_html_list[i]:
 #            for j in range(0, len(markdown_list)):
 #                if '# ' in markdown_list[j]:
@@ -186,11 +201,17 @@ for n in range(len(markdown_names_list)):
                 elif markdown_list[j].startswith('---'): html_export.write("<hr>\n") # horisontal rule
 
                 # if a line has an image requested, use the <img> tag to write the image source
-                elif '![' in markdown_list[j] and '\![' not in markdown_list[j]: # image
-                        split_image = markdown_list[j].split(']')
-                        image_link = (split_image[1].lstrip('(')).rstrip(') \n')
-                        alt = split_image[0].lstrip("![")
-                        html_export.write(f'<img src="{image_link}" alt="{alt}">\n')
+
+                # current line, thing to look for, and thing to avoid
+                # span_handler(current_line, '][', 'id')
+                # span_handler(current_line, '](', '://')
+                # span_handler(current_line, '][', '"', '://')
+
+                # elif '![' in markdown_list[j] and '\![' not in markdown_list[j]: # image
+                #         split_image = markdown_list[j].split(']')
+                #         image_link = (split_image[1].lstrip('(')).rstrip(') \n')
+                #         alt = split_image[0].lstrip("![")
+                #         html_export.write(f'<img src="{image_link}" alt="{alt}">\n')
                 
                 # start the inlines and prepare the current_line if no block-level elements are started
                 elif markdown_list[j] != '\n':
@@ -206,6 +227,7 @@ for n in range(len(markdown_names_list)):
                     current_line = styletag_change(current_line,'~~','strikethough','<s>','</s>','⒳')
                     current_line = styletag_change(current_line,'$$','mathmatical formula','<span class="math">','</span>','⒨')
                     current_line = styletag_change(current_line,'||','spoiler','<spoiler>','</spoiler>','⒣')
+                    current_line = styletag_change(current_line,'==','hilight','<mark>','</mark>', 'Ͷ')
 
                     # inline replacements
                     current_line = find_replace(current_line, '--', '—')
