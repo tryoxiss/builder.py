@@ -20,7 +20,7 @@ An extensible static site generation package with good extension support.
 
 ### Work in Progress Markdown
 - `[id links][id]` (make sire you add `[id]: url "label"` somewhere in your document!)  
-- `[[wikilinks|you-can-pipe-wikilinks-too!]]` -- Takes the content inside of it and links to that! You can use a pipe (`|` character to specify otherwise (`this content will be displayed|and-it-will-link-here`). You can use absolute (`[[/path/to/file]]`) relative from base (`[[thing]]`) For example if you are on example.com/blog/post-1 and there is a wikilink to `[[post-2]]` you will go to example.com/blog/post-2, but if it was `[[/post-2]]` you would go to example.com/post-2!
+- `[[Pipeable Wikilinks|wikilinks]]` -- Takes the content inside of it and links to that! You can use a pipe (`|` character to specify otherwise (`this content will be displayed|and-it-will-link-here`). You can use absolute (`[[/path/to/file]]`) relative from base (`[[thing]]`) For example if you are on example.com/blog/post-1 and there is a wikilink to `[[post-2]]` you will go to example.com/blog/post-2, but if it was `[[/post-2]]` you would go to example.com/post-2!
 - `[abbrs]("Abbriviations")` -- WARNING: The label is NOT VISBLE to screen readers  
 - `^superscript`  
 - `^^subscript`  
