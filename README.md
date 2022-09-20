@@ -9,21 +9,21 @@ An extensible static site generation package with good extension support.
 
 **Thats it!** You can now do with them what you want, commit them to your web server, use them for whatever you want! Builder.py supports a wide range of markdown, and if its missing something you can just modify the code or add an extension for it!
 
-`*italics*`
-`**bold**`
-`__underlined__`
-`[links](url "label")`'
-`# Headers` (Number of hashtags specifies trhe level, `# ` is h1, `## ` is h2, etc. The space IS NEEDED, otherwise its a tag) 
-`--` emdash (`—`)
+`*italics*`  
+`**bold**`  
+`__underlined__`  
+`[links](url "label")`'  
+`# Headers` (Number of hashtags specifies trhe level, `# ` is h1, `## ` is h2, etc. The space IS NEEDED, otherwise its a tag)   
+`--` emdash (`—`)  
 
-**Work in progress** 
-`[id links][id]` (make sire you add `[id]: url "label"` somewhere in your document!)
-`[[wikilinks]]`
-`[abbrs]("Abbriviations")` -- WARNING: The label is NOT VISBLE to screen readers
-`^superscript`
-`^^subscript`
-`#tags` or indexing
-`[HTML Obfuscated emails](mailto:email@example.co,)` 
+**Work in progress**  
+`[id links][id]` (make sire you add `[id]: url "label"` somewhere in your document!)  
+`[[wikilinks]]`  
+`[abbrs]("Abbriviations")` -- WARNING: The label is NOT VISBLE to screen readers  
+`^superscript`  
+`^^subscript`  
+`#tags` or indexing  
+`[HTML Obfuscated emails](mailto:email@example.co,)`   
 
-**with extensions... ** 
-`:emojis: and :unicode: character auto replacement!`
+**with extensions... **   
+`:emojis: and :unicode: character auto replacement!`  
