@@ -17,6 +17,21 @@ An extensible static site generation package with good extension support.
 - `[links](url "label")`'  
 - `# Headers` (Number of hashtags specifies trhe level, `# ` is h1, `## ` is h2, etc. The space IS NEEDED, otherwise its a tag)   
 - `--` emdash (`—`)  
+- `> ` blockquotes
+
+```
+- unorderd
+- lists
+- are  
+- working
+```
+
+```
+1. ordrded
+2. Lists
+3. are  
+4. too
+```
 
 ### Work in Progress Markdown
 - `[id links][id]` (make sire you add `[id]: url "label"` somewhere in your document!)  
@@ -28,6 +43,27 @@ An extensible static site generation package with good extension support.
 - `[HTML Obfuscated emails](mailto:email@example.co,)`   
 - `![image label](url)`
 - `![id images][id]`
+
+```
+- nested
+  - unordered
+  - lists 
+- are a 
+  - work 
+    - in 
+      - progress
+```
+
+```
+1. nested
+  1. ordered
+  2. lists 
+2. are 
+  1. a
+  2. work 
+  3. in 
+    1. progress
+```
 
 ### With Extensions... 
 - `:emojis: and :unicode: character auto replacement!`  
