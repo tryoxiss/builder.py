@@ -26,54 +26,22 @@
         </div>
     </nav>
 
-    <header style="background-image: url('https://wallpapercave.com/wp/wp3711322.png'); ">
-        <h1>This article is an unhinged info dump<span>: mostly about cool shows I watch</span></h1>
+    <header style="background-image: url('https://techstacker.com/how-to-escape-html.html'); ">
+        <h1>How NOT to write markdown </h1>
     </header>
 
     <div class="page">
-<h2 id="heading-2">Heading 2</h2>
-<blockquote>Velit culpa quod nihil, doloribus deserunt maxime sit dignissimos debitis beatae ea officiis! Hic quae est quod similique! Eveniet quae at minus quaerat iusto distinctio rerum recusandae nihil non? Tenetur, debitis at minima reiciendis, sequi dolorum dignissimos facere necessitatibus ipsa sit accusamus.</blockquote>
-<h3 id="h-3">Now we have headibgs 3</h3>
-<h4 id="four">Four</h4>
-<h5 id="five">Five</h5>
-<h6 id="six">And six!</h6>
-<hr>
-<pre><code class="language-">this is
-    a multi
-       line
-  code block
-          and should preserve
-  spaces and tabs exactly, 
-      none of this fancy 
-                indenting
-        stuff. </code></pre>
-<pre><code class="language-python"># now this code block is written in python: 
-import json 
-number = 3
-def a_function(paramater): 
-    i += 3
-    something = i
-    for i in range(0, something)
-        break 
-a_function(number)</code></pre>
-<pre><code class="language-py">import json 
-number = 3
-def a_function(paramater): 
-    i += 3
-    something = i
-    for i in range(0, something)
-        break 
-a_function(number)</code></pre>
-<pre><code class="language-html"><pre><code class="language-LANG">
-import json 
-number = 3
-def a_function(paramater): 
-    i += 3
-    something = i
-    for i in range(0, something)
-        break 
-a_function(number)
-</pre></code></code></pre>
+<h4>Jumping down more than one heading level</h4>
+<h6>Using lower headers as subtittles</h6>
+<h2>Code Block Mistakes</h2>
+<pre><code class="language-">To be clear: you should still ALWAYS specify a language on multi-line code blocks, it's just a nice fallback if you froget. 
+You also shouldn't put plain text in code blocks, so we should leave this *now* </code></pre>
+<pre><code class="language-python">1    def like_this(): 
+2       print("you shouldn't do this")
+3       print("it's bad for screen readers AND your sanity")</code></pre>
+<h2>NO ID Headers</h2>
+<pre><code class="language-md">## Heading two for stuff {heading-2}</code></pre>
+<h2>Headers with **BOLD** __UNDERLINED__ OR -- (emdash)</h2>
     </div>
 
 
