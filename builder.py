@@ -3,6 +3,7 @@ __version__ = 'v0.0.2'
 import pathlib
 import os
 import shutil
+import time
 
 # open html template
 base_html_list = open('__templates/base.html', 'r').readlines()
@@ -52,6 +53,30 @@ def styletag_change(current_line, md_tag, style_type, html_tag, html_closing_tag
     current_line = current_line.replace(f'⒭', f'\{md_tag}')
     return current_line
 
+def continue_sts_change(md_tag, current_line, current_line_split):
+    if md_tag in current_line_split[1] and current_line_split[1].find('^') == current_line_split[1].find(' ') + 1:
+        current_line_split[1].replace(' ^', '⒥', 1)
+        current_line_split = continue_sts_change(md_tag, current_line, current_line_split)
+    return current_line_split
+
+def styletag_switch(current_line, md_tag, style_type, html_tag, html_closing_tag, error_byte, j):
+    current_count = 0
+    current_line = current_line.replace(f'\{md_tag}', f'⒭')
+    for k in range(0,40):
+        if f'{md_tag}' in current_line:
+            current_line_split = current_line.split("^", 1)
+            current_line_split[1] = f'{html_closing_tag}'.join(f'{current_line_split[1]}')
+            
+            current_line_split = continue_sts_change(md_tag, current_line, current_line_split)
+            
+
+
+            current_line_split.replace(' ', f'{html_closing_tag} ', 1)
+            current_line = current_line.replace(f'{md_tag}', f'{html_tag}', 1)
+
+    current_line = current_line.replace(f'⒭', f'\{md_tag}')
+    return current_line
+
 def find_replace(current_line, md_tag, text_tag): # finds and replaces specified characters (as long as they are not before a \)
     current_line = current_line.replace(f'\{md_tag}', '⒭')
     for k in range(0,40): 
@@ -91,12 +116,13 @@ def build_to_html(child):
 
         current_line_html = base_html_list[i]
 
-#        # replaces {title} with the proper title, as well as looking for the background image to place it in as well
-#        if '{title}' in base_html_list[i]:
-#            for j in range(0, len(markdown_list)):
-#                if '# ' in markdown_list[j]:
-#                    current_line_html.replace('{title}', markdown_list[j].replace('# ', ''))
-#                    break
+        # replaces {title} with the proper title, as well as looking for the background image to place it in as well
+        if '{title}' in base_html_list[i]:
+           for j in range(0, len(markdown_list)):
+               if '# ' in markdown_list[j]:
+                   current_line_html = current_line_html.replace('{title}', markdown_list[j].lstrip('# ').rstrip('\n'))
+                   break
+        
         if '{background_image_url}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
                 if 'background_image: ' in markdown_list[j]:
@@ -197,7 +223,7 @@ def build_to_html(child):
                 #         html_export.write(f'<img src="{image_link}" alt="{alt}">\n')
                 
                 # start the inlines and prepare the current_line if no block-level elements are started
-                elif markdown_list[j] != '\n':
+                else:
                     # prepare the line for inline editing
                     current_line = "<p>" + markdown_list[j].rstrip('\n') + "</p>\n"
                     
@@ -216,9 +242,12 @@ def build_to_html(child):
                     current_line = find_replace(current_line, '--', '—')
                     current_line = find_replace(current_line, '\\', '')
 
+                    # inline super and subscripting
+                    
+
                     # replacing control bytes with proper md tag
                     current_line = current_line.replace('⒝', '**').replace('⒤', '*').replace('⒟', '__').replace('⒞', '`').replace('⒳', '~~').replace('⒨', '$$').replace('⒣', '||').replace('⒩', '==') # replace ⒪ ⒝ ⒤ ⒟ ⒞ ⒳ ⒨ ⒣ ⒩ with respective '***' '**' '*' '__' '`' '~~' '$$' '||'
-                    current_line_html += current_line
+                    html_export.write(current_line)
         else: 
             html_export.write(current_line_html)
     
@@ -260,6 +289,7 @@ changes_ok = input(f'Are these changes OK ({success}Y{body}/{fatal}n{body}): ')
 # if the player allows the operation to start, this will not be aborted, reminder: ONLY CAPITAL Y will work to help prevent "auto-pilot"
 if 'Y' in changes_ok: 
     print(f'{success}Process Started!{body}')
+    start_time = time.time_ns()
 else:
     print(f'{fatal}Process Ending...{body}')
     exit(1) # 1 = aborted
@@ -269,6 +299,6 @@ for child in pathlib.Path().iterdir():
         replaceMDFiles(child)
 
 # print the success and exit with a code of 0 (success)
-print(f'{success} --PROCESS FINISHED!-- {body}')
+print(f'{success} --PROCESS FINISHED IN {round((time.time_ns() - start_time) / 1000000000, 2)} SECONDS-- {body}')
 exit(0) # 0 = success
 
