@@ -1,9 +1,9 @@
 
 builder.py
-v. 0.0.0.1
+v0.0.2
 
 FOR HTML EDITORS:
-    In '<title>' always include '{title}' to add the title, otherwise it will be missed entirely. 
+    In '<title>' always include '{{title}}' to add the title, otherwise it will be missed entirely. 
 
     To get the background image before content you must have:  '<header style="background-image: url('{background_image_url}'); ">'
     

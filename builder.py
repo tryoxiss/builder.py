@@ -7,6 +7,15 @@ import time
 
 # open html template
 base_html_list = open('__templates/base.html', 'r').readlines()
+config_file = open('builder.yml')
+
+# load user configuration
+config = []
+
+for i in range(1, len(config)): 
+    config += i; 
+    print(config)
+
 
 # colours for console
 percent     = '\033[90m'
@@ -23,7 +32,6 @@ files_to_delete = 0
 files_to_build = 0
 files_built = 0
 percent_complete = 0
-
 
 def styletag_warning(style_type, j): # style tag warning for the console, this is a function to allow for easy reuse while making warnings
     print(f'{warning}WARNING:{body} file {impinfo}{child}{body} on line {impinfo}{j}{body} there is only an opening set of {style_type}, it will show up as itself instead of turning into the appropriate style tags.')
@@ -107,8 +115,8 @@ def build_to_html(child):
     markdown = open(f'{child}', "r")    # sets the file you wanted to be edited into the variable "markdown" and sets it to be read-only (so we dont break it)
     markdown_list = markdown.readlines()
 
-    childName = str(child).rstrip('.md').lstrip('_') + '.html'
-    html_export = open(childName, 'w')
+    child_name = str(child).rstrip('.md').lstrip('_') + '.html'
+    html_export = open(child_name, 'w')
     language_current = ''
 
     # starts going through the template file line by line to replace the fields in question
@@ -130,7 +138,7 @@ def build_to_html(child):
                     break
 
         # replaces {h1} with the first md header for the proper title of the html file, also adds the text after the colon if applicable
-        if '{h1}' in base_html_list[i]:
+        if '{{h1}}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
                 if '# ' in markdown_list[j]:
                     if ':' in markdown_list[j]:
@@ -141,7 +149,7 @@ def build_to_html(child):
                         break
 
         # WIP (language support for codeblocks)
-        if '{language}' in base_html_list[i]:
+        if '{{language}}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
                 if 'language: ' in markdown_list[j]:
                     language_current = (markdown_list[j].lstrip('language: ')).rstrip('\n')
@@ -150,7 +158,7 @@ def build_to_html(child):
                     current_line_html = current_line_html.replace('{language}', language_current).replace('{line-numbers}', 'line-numbers')
 
         # replaces {content} with the content specified after the front matter in the md document
-        if '{content}' in base_html_list[i]:
+        if '{{content}}' in base_html_list[i]:
             
             # finds the end of the front matter
             temp_count = 0
@@ -228,8 +236,8 @@ def build_to_html(child):
                     current_line = "<p>" + markdown_list[j].rstrip('\n') + "</p>\n"
                     
                     # inline styletag changes
-                    current_line = styletag_change(current_line,'**','bold','<b>', '</b>','⒝', j)
-                    current_line = styletag_change(current_line,'*','italics','<i>','</i>','⒤', j)
+                    current_line = styletag_change(current_line,'**','bold','<strong>', '</strong>','⒝', j)
+                    current_line = styletag_change(current_line,'*','italics','<em>','</em>','⒤', j)
                     current_line = styletag_change(current_line,'__','underline','<u>','</u>','⒟', j)
                     current_line = styletag_change(current_line,'``','inline-codeblock','<code>','</code>','⒞', j)
                     current_line = styletag_change(current_line,'`','inline-codeblock','<code>','</code>','⒞', j)
@@ -239,7 +247,8 @@ def build_to_html(child):
                     current_line = styletag_change(current_line,'==','highlight','<mark>','</mark>', '⒩', j)
 
                     # inline replacements
-                    current_line = find_replace(current_line, '--', '—')
+                    current_line = find_replace(current_line, '--', '–')
+                    current_line = find_replace(current_line, '---', '—')
                     current_line = find_replace(current_line, '\\', '')
 
                     # inline super and subscripting
@@ -255,17 +264,17 @@ def build_to_html(child):
     global files_built
     files_built += 1
     percent_complete = (files_built / files_to_build * 100).__round__(1)
-    print(f'{success}{files_built}{addinfo}/{success}{files_to_build}{body} Built {addinfo}({percent_complete}%){body}')
+    print(f'{success}{files_built}{addinfo}/{body}{files_to_build}{addinfo} {addinfo}({percent_complete}%){body} {child} {success} Finished Building{body}')
 
-def findMDFiles(child, files_to_build):
+def find_md_files(child, files_to_build):
     if os.path.isdir(child) == True:
         for child in pathlib.Path(child).iterdir():
             if os.path.isfile(child) == True and child.suffix == '.md':
                 files_to_build += 1
-            files_to_build = findMDFiles(child, files_to_build)
+            files_to_build = find_md_files(child, files_to_build)
     return files_to_build
 
-def replaceMDFiles(child):
+def replace_md_files(child):
     if os.path.isdir(child) == True:
         os.mkdir(str(child).lstrip('_'))
         for child in pathlib.Path(child).iterdir():
@@ -274,31 +283,40 @@ def replaceMDFiles(child):
                 pass
             elif os.path.isfile(child) == True:
                 shutil.copyfile(child, str(child).lstrip("_"))
-            replaceMDFiles(child)
+            replace_md_files(child)
 
 # This block asks the user if they want to start the builder giving information of what it will do
 for child in pathlib.Path().iterdir(): # Find MD files
     if os.path.isdir(child) == True and child.name.startswith('_') and not child.name.startswith('__'):
-        files_to_build = findMDFiles(child, files_to_build)
+        files_to_build = find_md_files(child, files_to_build)
 
 print(f'{addinfo}INFO: {body} builder.py will DELETE and then REBUILD ALL files.')
 #print(f'{fatal}{files_to_delete}{body} will be {fatal}DELETED{body}') #TODO: Add deleted files into output
-print(f'{success}{files_to_build}{body} will be {success}BUILT{body}')
+print(f'{success}{files_to_build}{body} files will be {success}BUILT{body}')
 changes_ok = input(f'Are these changes OK ({success}Y{body}/{fatal}n{body}): ')
 
 # if the player allows the operation to start, this will not be aborted, reminder: ONLY CAPITAL Y will work to help prevent "auto-pilot"
 if 'Y' in changes_ok: 
     print(f'{success}Process Started!{body}')
     start_time = time.time_ns()
+elif 'debug' in changes_ok: 
+    pass # TODO: Self-dignostic system. FAR FUTURE, 
 else:
     print(f'{fatal}Process Ending...{body}')
     exit(1) # 1 = aborted
 
 for child in pathlib.Path().iterdir():
+    
     if os.path.isdir(child) == True and child.name.startswith('_') and not child.name.startswith('__'):
-        replaceMDFiles(child)
+        replace_md_files(child)
+
+build_time = round((time.time_ns() - start_time) / 1000000000, 2)
+if build_time <= 0.1: 
+    build_time = 'LESS THAN 0.1 SECCONDS'
+else: 
+    build_time += ' SECCOND'
 
 # print the success and exit with a code of 0 (success)
-print(f'{success} --PROCESS FINISHED IN {round((time.time_ns() - start_time) / 1000000000, 2)} SECONDS-- {body}')
+print(f'{success} --PROCESS FINISHED IN {build_time}-- {body}')
 exit(0) # 0 = success
 
