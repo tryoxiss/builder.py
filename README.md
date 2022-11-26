@@ -1,9 +1,9 @@
 # builder.py
-An extensible static site generation package with good extension support. 
+An extensible static site generation package for the real world. 
 
 ## Quick Start Guide
 
-1. **Add a folder that starts with an `_`** (just `_` works too!) contents will be put into that folder but with the `_` stripped, so `_/blog` will be put into `/blog/`. `_` goes to the root directory and they all preserve file structure!
+1. **Add a folder that starts with an `_`** (just `_` works too!) contents will be put into that folder but with the `_` stripped, so `_/blog` will be put into `/blog/`. `_` goes to the root directory and they all preserve file structure! (This works well if you make the build to folder for these the subdomain, and thats how it will likely be interpreted. 
 2. **Add `builder.py` and `builder.config` to your root directory** (you can just copy the defult, it will work in most cases) 
 3. **Run builder.py** (`python builder.py` using a terminal) 
 
