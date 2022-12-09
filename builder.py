@@ -33,10 +33,10 @@ files_to_build = 0
 files_built = 0
 percent_complete = 0
 
-def styletag_warning(style_type, j): # style tag warning for the console, this is a function to allow for easy reuse while making warnings
+def styletag_warning(style_type, j: int): # style tag warning for the console, this is a function to allow for easy reuse while making warnings
     print(f'{warning}WARNING:{body} file {impinfo}{child}{body} on line {impinfo}{j}{body} there is only an opening set of {style_type}, it will show up as itself instead of turning into the appropriate style tags.')
 
-def header_check(md_tag, header_level, markdown_list, j, html_export): # checking different header levels to create <h#><\h#>
+def header_check(md_tag: str, header_level, markdown_list, j: int, html_export): # checking different header levels to create <h#><\h#>
     current = ((markdown_list[j].lstrip(f'{md_tag} ')).rstrip('\n')).split(' {') # 'title', 'id}'
     if len(current) >= 2:
         html_export.write(f'<h{header_level} id="' + current[1].rstrip('}') + '">' + current[0] + f'</h{header_level}>\n')
@@ -151,11 +151,13 @@ def build_to_html(child):
         # WIP (language support for codeblocks)
         if '{{language}}' in base_html_list[i]:
             for j in range(0, len(markdown_list)):
-                if 'language: ' in markdown_list[j]:
-                    language_current = (markdown_list[j].lstrip('language: ')).rstrip('\n')
+                if 'language: ' not in markdown_list[j]: return
+
+                language_current = (markdown_list[j].lstrip('language: ')).rstrip('\n')
             for j in range(0, len(markdown_list)):
-                if 'line-numbers: true' in markdown_list[j]:
-                    current_line_html = current_line_html.replace('{language}', language_current).replace('{line-numbers}', 'line-numbers')
+                if 'line-numbers: true' not in markdown_list[j]: return; 
+
+                current_line_html = current_line_html.replace('{language}', language_current).replace('{line-numbers}', 'line-numbers')
 
         # replaces {content} with the content specified after the front matter in the md document
         if '{{content}}' in base_html_list[i]:
@@ -178,7 +180,7 @@ def build_to_html(child):
                 
                 # if the line is empty then skip it
                 if markdown_list[j].startswith('\n'): continue
-                
+
                 # if the line has a comment then skip it
                 if '<!--' and '-->' in markdown_list[j]: continue # we continue as we do not want to print anything that has a comment
 
