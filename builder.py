@@ -7,10 +7,7 @@ prettify_links = True
 
 # This is more complex, feel free to ignore everything below this!
 
-def before_build() -> bool:
-    pass
-
-def build_file(file: File) -> bool:
+def build(file: File) -> bool:
     """
     Defines the per-file build process. The return value true if it was
     built successfully and false if an error occured. (Feel free to change
@@ -21,12 +18,14 @@ def build_file(file: File) -> bool:
     # This is where you add extensions! Just run its function
     # as part of the build process
 
-    return 0
+    # check dead links
 
-def after_build() -> bool:
+    # write to destination
     # minify
-    # make sure links are pretty
-    # generate permalinks
+
+    # generate permalink
+
+    return 0
 
 # Now we just run the main process!
 def build():
