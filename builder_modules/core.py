@@ -5,28 +5,28 @@ import os
 import shutil
 import time
 
-import builder as userspace
+import log
 
-# class ModernMarkdown:
-#     def compile(file: File):
-#         pass
+import builder as userspace
 
 class File:
 
-    initial_content = str
-    built_content = str
+    content = str
     name = str
+    path = str
 
     def __init__(self, path: str):
         # Import current content file and pass to the builder
 
         # Opens the buildable file in read only
-        self.initial_content = open(f'{path}', "r").readlines()
-        
+        self.content = open(f'{path}', "r").readlines()
+        self.path = path
         # Stores the filename
         self.name = path.rstrip(userspace.content_file_extention)
     
     def write_to(path: str):
+        # Write to the path provided, inside the project root then `userspace.output_directory`
+        # of course remove the input path from the thing.
         pass
 
 def run():
@@ -52,12 +52,15 @@ def search_buildable_files(child):
         if os.path.isdir(child) == False:
             return
 
-        if child.suffix == userspace.content_file_extention:
-            print(child.stat())
-            userspace.build( File(str(child)) )
-        else:
-            # shutil.copyfile(child, child)
-            pass
+        if child.suffix != userspace.content_file_extention:
+            continue
+
+        print(child.stat())
+        response = userspace.build( File(str(child)) )
+
+        match response:
+            case 0:
+                log.ok()
         
         search_buildable_files(child)
 

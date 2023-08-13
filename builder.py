@@ -25,13 +25,10 @@ def build(file) -> int:
     # as part of the build process
 
     # check dead links
-
-    # write to destination
     # minify
-
     # generate permalink
 
-    file.write_to(f"{file.path}/index.html")
+    file.write_to(f"{file.path.rstrip(userspace.content_file_extention)}/index.html")
 
     return 0
 
