@@ -7,23 +7,30 @@ import time
 
 import builder as userspace
 
-# class ModernMarkdown:
-#     def compile(file: File):
-#         pass
-
 class File:
+    """
+    A custom file class for builder.py.
+    """
 
     content = str
     name = str
+    path = str
 
     def __init__(self, path: str):
         # Import current content file and pass to the builder
 
         # Opens the buildable file in read only
         self.content = open(f'{path}', "r").readlines()
-        
+        self.path = path
         # Stores the filename
-        self.name = path
+        self.name = path.rstrip(userspace.content_file_extention)
+    
+    def write_to(self, path: str):
+        # Write to the path provided, inside the project root then `userspace.output_directory`
+        # of course remove the input path from the thing.
+        path = userspace.output_directory + path.lstrip(userspace.input_content_directory)
+
+        pass
 
 def run():
     """
@@ -55,6 +62,7 @@ def find_and_build_files():
 
         search_buildable_files(child)
 
+# WARNING: This is recursive! We need to put an upper limit on recursions!
 def search_buildable_files(child):
     """
     Iterates over the current contents of a directory. 

@@ -1,4 +1,3 @@
-
 🎉 - release, mostly
 🔥 - Removal
 🐛 - bug fix
@@ -9,5 +8,5 @@
 🎨 - customisation/styling
 🧹 - clean up code
 🖊️ - fix spelling/grammer/etc
-🎬 - rollback 
+🎬 - rollback
 📔 - System change (such as swapping from a share link using youtubes ids to internal ids)
