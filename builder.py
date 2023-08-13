@@ -2,7 +2,8 @@ import builder_modules.builder_backend as core # Ignore this <3
 
 # Main config variables! These are what you most likely want to tweak.
 input_content_directory = "content"
-content_file_extention = ".md"
+content_file_extention = [".md", ".txt"]
+only_template_compilation = [".htcl", ".httl"]
 input_component_directory = "components"
 
 output_directory = "target"
@@ -19,7 +20,7 @@ def build(file) -> int:
     this as needed)
     """
 
-    
+    core.shutil.copyfile(file.name, core.get_output_file(file.name))
 
     # file = core.ModernMarkdown.compile(file)
     # This is where you add extensions! Just run its function

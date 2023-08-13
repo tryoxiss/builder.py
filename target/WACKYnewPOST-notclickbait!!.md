@@ -1,16 +1,17 @@
 ---
-background_image: https://wallpapercave.com/wp/wp3711322.png
-date: 26-aug-2022
-creator: madeline 'tryoxiss' lesbian 
-line-numbers: true
+background_image: https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpics.me.me%2Fthumb_3-551-lte-hot-dog-eating-mask-only-used-once-20-46852433.png&f=1&nofb=1
+date: 00-jul-28000
+creator: khaim 'khaim0919' lesbian
+language: python
+line-numbers: false
 ---
 <!-- This should be converted into HTML and go into /blog when running builder.py --> 
-# This article is an unhinged info dump: mostly about cool shows I watch
+# This article is dumb
 <!--(this should have the ID of #content ALWAYS) -->
 
-/!\ Full spoiler warning for *hilda* and *lorem ipsum (pages 1-55!)* /!\
+/!\ Full spoiler warning for *your moms vv* /!\
 
-So stuff and things and *all the stuff* and *all the things* are just really amazing all the time. Lorem ipsum dolor sit amet consectetur a*d*i***pisicing*** elit. Aliquid ***consequatur cum explicabo culpa sapiente eius, amet odit molestiae autem iusto assumenda architecto natus tempore aut dignissimos*** temporibus maxime maiores sunt, molestias nemo ab at veniam? Minima veritatis explicabo placeat. Nam vel doloremque reiciendis minima?
+Lorem ipsum dolor, ~~sit amet consectetur adipisicing elit. Error totam dolores nisi veniam quas et. Asperiores, odit quas quia, magni blanditiis dolorum, quos dolore*mq**ue** vel d*electus error quo con**sectetu**r. Commodi aspernatur hic nisi reiciendis fugit, velit et temporibus soluta alias harum quia sit animi a~~ccusamus deserunt. Velit incidunt inventore exercitationem quos voluptatibus, fugit modi eos!
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. **Eum, voluptates saepe?** Autem, ducimus amet, dignissimos totam reprehenderit aut impedit voluptas exercitationem similique, sequi assumenda iure excepturi soluta doloremque consectetur corporis non tempore __voluptatibus__.
 
@@ -18,7 +19,7 @@ Ut iste corporis placeat repellendus ipsum tempora nesciunt, [nam illum](wikiped
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga odio consequuntur eum voluptatum reprehenderit temporibus, sed omnis illo? Quaerat non, possimus fugiat perspiciatis quasi doloremque nihil reprehenderit, [pariatur](/mystuff/dnd-tracker/dnd-tracker.py) (Download .py file, internal link) nam recusandae aliquam veritatis consequatur rem laborum commodi? Velit ipsam impedit maiores fugit repellat enim accusantium.
 
-## Heading 2 {heading-2}
+## Heading twiceeeeeeeeee {heading-2}
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum quis modi officia sed alias, maiores, adipisci, quas facere voluptatibus nemo at doloremque porro dolore enim illum non nam. [Sunt, ex](/blog/other-post.html) (Link to another post, interal).
 
@@ -44,7 +45,9 @@ Now we need to test escapes, this should have \*astrisks\* around it, and \*\*TH
 
 ###### And six! {six}
 
-####### But heading 7 dosent exist, so this should be a paragraph. 
+## this shouldnt error anymore {yeah-probably-wont}
+
+# and heading one apparently again should break some stuff maybe?
 
 \# this should start with a hashtag
 
@@ -72,7 +75,7 @@ this is
 
 and here is another one 
 
-```python
+```
 # now this code block is written in python: 
 
 import json 
@@ -107,7 +110,7 @@ a_function(number)
 now this is the code that the HTML should look like: 
 
 ```html 
-<pre><code class="language-LANG">
+<pre><code class=python>
 import json 
 
 number = 3
@@ -121,7 +124,5 @@ def a_function(paramater):
 a_function(number)
 </pre></code>
 ```
-
-this is an email, it should be obfuscated with HTML codes to make it work the same but not be suspetible to screen readers: <tryoxiss@gmail.com>. And this is a HTML <span class="hilight">SPAN Element</span>, it should be added as is but throw a warning. 
 
 and I think thats about it for this snazzy little thing!!
