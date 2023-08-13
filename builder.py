@@ -41,7 +41,7 @@ def build(file) -> int:
     # minify
     # generate permalink
 
-    file.write_to(f"{file.path.rstrip(userspace.content_file_extention)}/index.html")
+    # file.write_to(f"{file.path.rstrip(userspace.content_file_extention)}/index.html")
 
     return 0
 

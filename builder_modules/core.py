@@ -6,6 +6,7 @@ import shutil
 import time
 
 import builder as userspace
+import builder_modules.log as log
 
 class File:
     """
@@ -21,16 +22,14 @@ class File:
 
         # Opens the buildable file in read only
         self.content = open(f'{path}', "r").readlines()
+
+        # Stores the files path
         self.path = path
+
         # Stores the filename
         self.name = path.rstrip(userspace.content_file_extention)
-    
-    def write_to(self, path: str):
-        # Write to the path provided, inside the project root then `userspace.output_directory`
-        # of course remove the input path from the thing.
-        path = userspace.output_directory + path.lstrip(userspace.input_content_directory)
 
-        pass
+        # log.debug("File: ", self.name, " at location: ", self.path " has been created")
 
 def run():
     """
