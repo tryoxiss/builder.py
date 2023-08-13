@@ -7,9 +7,9 @@ import time
 
 import builder as userspace
 
-class ModernMarkdown:
-    def compile(file: File):
-        pass
+# class ModernMarkdown:
+#     def compile(file: File):
+#         pass
 
 class File:
 
@@ -17,9 +17,14 @@ class File:
     built_content = str
     name = str
 
-    def __init__(self: self, content: str, name: str):
-        self.initial_content = content
-        self.name = name
+    def __init__(self, path: str):
+        # Import current content file and pass to the builder
+
+        # Opens the buildable file in read only
+        self.initial_content = open(f'{path}', "r").readlines()
+        
+        # Stores the filename
+        self.name = path.rstrip(userspace.content_file_extention)
 
 def run():
     find_and_build_files()
@@ -44,24 +49,11 @@ def search_buildable_files(child):
             return
 
         if child.suffix == userspace.content_file_extention:
-            userspace.build(str(child))
-            pass
+            print(child.stat())
+            userspace.build( File(str(child)) )
         else:
-            shutil.copyfile(child, child)
+            # shutil.copyfile(child, child)
+            pass
         
         search_buildable_files(child)
 
-def build(path: str):
-    # Import current content file and pass to the builder
-
-    # Opens the buildable file in read only
-    file_content = open(f'{path}', "r").readlines()
-    
-    # Stores the filename
-    file_name = path.rstrip(userspace.content_file_extention)
-
-    # Create the file class
-    file = File(file_content, file_name)
-
-    # Pass the file to be built
-    userspace.build(file)
