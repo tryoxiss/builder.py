@@ -5,8 +5,6 @@ import os
 import shutil
 import time
 
-import log
-
 import builder as userspace
 
 class File:
@@ -57,10 +55,6 @@ def search_buildable_files(child):
 
         print(child.stat())
         response = userspace.build( File(str(child)) )
-
-        match response:
-            case 0:
-                log.ok()
         
         search_buildable_files(child)
 
