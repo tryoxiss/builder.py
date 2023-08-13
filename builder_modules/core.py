@@ -25,6 +25,9 @@ class File:
         
         # Stores the filename
         self.name = path.rstrip(userspace.content_file_extention)
+    
+    def write_to(path: str):
+        pass
 
 def run():
     find_and_build_files()
@@ -39,6 +42,7 @@ def find_and_build_files():
         if (child.name == userspace.input_content_directory):
             search_buildable_files(child)
 
+# WARNING: This is recursive! We need to put an upper limit on recursions!
 def search_buildable_files(child):
     if os.path.isdir(child) == False:
         return

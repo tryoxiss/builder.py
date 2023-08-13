@@ -1,4 +1,5 @@
 import builder_modules.core as core # Ignore this <3
+import builder_modules.modern_markdown as modern_markdown
 
 # Main config variables! These are what you most likely want to tweak.
 input_content_directory = "content"
@@ -19,9 +20,7 @@ def build(file) -> int:
     this as needed)
     """
 
-    
-
-    # file = core.ModernMarkdown.compile(file)
+    file = modern_markdown.compile(file.content)
     # This is where you add extensions! Just run its function
     # as part of the build process
 
@@ -32,8 +31,14 @@ def build(file) -> int:
 
     # generate permalink
 
+    file.write_to(f"{file.path}/index.html")
+
     return 0
 
 # Now we just run the main process!
 if __name__ == "__main__":
     core.run()
+
+#     modern_markdown.compile("""meowww
+# hi
+# mew mew""")
