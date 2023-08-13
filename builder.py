@@ -1,4 +1,4 @@
-import builder_modules.builder_backend as core # Ignore this <3
+import builder_modules.core as core # Ignore this <3
 
 # Main config variables! These are what you most likely want to tweak.
 input_content_directory = "content"
