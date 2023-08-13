@@ -8,6 +8,9 @@ import time
 import builder as userspace
 
 class File:
+    """
+    A custom file class for builder.py.
+    """
 
     content = str
     name = str
@@ -22,9 +25,11 @@ class File:
         # Stores the filename
         self.name = path.rstrip(userspace.content_file_extention)
     
-    def write_to(path: str):
+    def write_to(self, path: str):
         # Write to the path provided, inside the project root then `userspace.output_directory`
         # of course remove the input path from the thing.
+        path = userspace.output_directory + path.lstrip(userspace.input_content_directory)
+
         pass
 
 def run():

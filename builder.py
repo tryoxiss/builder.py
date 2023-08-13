@@ -11,6 +11,14 @@ content_output_extension = ".html"
 
 prettify_links = True
 
+md_config = modern_markdown.ModernMarkdownConfig()
+
+# Example on removing simple inline syntax
+md_config.simple_inline["/"] = ""
+
+# Example on adding simple inline syntax
+md_config.simple_inline["?"] = "mew"
+
 # This is more complex, feel free to ignore everything below this!
 
 def build(file) -> int:
@@ -20,7 +28,9 @@ def build(file) -> int:
     this as needed)
     """
 
-    file = modern_markdown.compile(file.content)
+    print(modern_markdown_config.do_meow)
+
+    file = modern_markdown.compile(file.content, config=md_config)
     # This is where you add extensions! Just run its function
     # as part of the build process
 
@@ -34,8 +44,9 @@ def build(file) -> int:
 
 # Now we just run the main process!
 if __name__ == "__main__":
-    core.run()
+    # md_config.simple_inline["||"] = "OwO"
 
-#     modern_markdown.compile("""meowww
-# hi
-# mew mew""")
+    # print(md_config.simple_inline["/"])
+    # print(md_config.simple_inline["?"])
+
+    core.run()
