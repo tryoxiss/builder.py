@@ -308,7 +308,6 @@ else:
     exit(1) # 1 = aborted
 
 for child in pathlib.Path().iterdir():
-    
     if os.path.isdir(child) == True and child.name.startswith('_') and not child.name.startswith('__'):
         replace_md_files(child)
 
