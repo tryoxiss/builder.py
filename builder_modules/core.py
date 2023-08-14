@@ -89,12 +89,15 @@ def search_buildable_files(child):
             search_buildable_files(child)
             continue
 
+        # If a file hasn't been edited after the previous build time, continue
         if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
             continue
 
+        # If the file has a mentioned content file extention, build it
         if userspace.content_file_extention.__contains__(child.suffix):
             userspace.build( File(str(child)) )
-        else:
+        # elif (): # Else if the file is a mentioned compilation only file, compile it
+        else: # This should be files such as images, JS documents, and others
             shutil.copyfile(child, get_output_file(child))
             pass
 
