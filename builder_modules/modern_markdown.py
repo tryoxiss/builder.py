@@ -3,15 +3,70 @@ def compile(string: str, *, config):
     The compiler interface for Modern Markdown.
     """
 
-    print(config["italics"])
+    compiler = ModernMarkdownCompiler(config=config)
+    compiler.compile(string)
 
-    for line in string.splitlines():
-        print(f"{line}")
+    print(string)
+
+class ModernMarkdownCompiler:
+    lines = []
+    config = None
+
+    def __init__(self, *, config):
+        self.config = config
+
+    def tokenize(self, string: str):
+
+        lines = []
+
+        since_last_token = 0
+        character = 0
+        # for i in range(0, len(string)):
+        while character <= len(string) - 1:
+            
+            if self.config.simple_inline.__contains__(string[character]) == False:
+                since_last_token += 1
+                character += 1
+                continue
+
+            lines.append(string[character - since_last_token:character])
+            since_last_token = 0
+
+            lines.append(string[character])
+            character += 1
+
+            # if self.config.simple_inline.__contains__(string[character] + string[character + 1]) == False:
+            #     character += 1
+            #     continue 
+
+            # lines[len(lines)] += string[character]
+
+        print(lines)
+
+
+
+
+    def replace(self, string: str):
+        pass
+
+    def compile(self, string: str) -> str:
+
+        splitlines = string.splitlines()
+        new_lines = ""
+
+        line = 0
+        while line <= len(splitlines) - 1:
+            splitlines[line] = self.tokenize(splitlines[line])
+            # self.lines[i] = self.replace(line)
+            line += 1
+        
+        # Conbine into one string to return
+        return ""
 
 class ModernMarkdownConfig:
 
     # . = span with class
-    # thing.class = element wioth the class
+    # thing.class = element with the class
     # thing#id = elemnt with that id
     # can be combined with .
     # if its capitalised its a component, not an element.

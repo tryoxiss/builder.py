@@ -14,20 +14,16 @@ class File:
     """
 
     content = str
-    name = str
     path = str
 
     def __init__(self, path: str):
         # Import current content file and pass to the builder
 
         # Opens the buildable file in read only
-        self.content = open(f'{path}', "r").readlines()
+        self.content = open(f'{path}', "r").read()
 
         # Stores the files path
         self.path = path
-
-        # Stores the filename
-        self.name = path.rstrip(userspace.content_file_extention)
 
         # log.debug("File: ", self.name, " at location: ", self.path " has been created")
 
@@ -89,10 +85,11 @@ def search_buildable_files(child):
             search_buildable_files(child)
             continue
 
+        # Need to add an option to rebuild all files on release build
         # If a file hasn't been edited after the previous build time, continue
-        if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
-            continue
-
+        # if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
+        #     continue
+        
         # If the file has a mentioned content file extention, build it
         if userspace.content_file_extention.__contains__(child.suffix):
             userspace.build( File(str(child)) )

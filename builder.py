@@ -29,11 +29,11 @@ def build(file) -> int:
     this as needed)
     """
 
-    core.shutil.copyfile(file.name, core.get_output_file(file.name))
+    # core.shutil.copyfile(file.name, core.get_output_file(file.name))
 
     # print(modern_markdown_config.do_meow)
 
-    # file = modern_markdown.compile(file.content, config=md_config)
+    file.content = modern_markdown.compile(file.content, config=md_config)
     # This is where you add extensions! Just run its function
     # as part of the build process
 
