@@ -2,6 +2,9 @@ import builder_modules.core as core # Ignore this <3
 import builder_modules.modern_markdown as modern_markdown
 import builder_modules.log as log
 
+host_to_lan = False
+mode = "live" # live | release
+
 # Main config variables! These are what you most likely want to tweak.
 input_content_directory = "content"
 content_file_extention = [".md", ".txt"]
@@ -66,4 +69,7 @@ if __name__ == "__main__":
     log.built("file")
     log.reload("file")
 
-    core.run()
+    if mode == "live":
+        core.run(lan=host_to_lan)
+    elif mode == "release":
+        core.build_release()

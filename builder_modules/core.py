@@ -1,4 +1,4 @@
-__version__ = 'v0.0.3'
+__version__ = '0.0.3'
 
 import pathlib
 import os
@@ -34,15 +34,30 @@ class File:
         [!] DANGER: This function is blind! It will overwrite anything at the desired path,
         consider usng `write()` for a less blind function! (Fix this!)
         """
-        
 
-def run():
+_reset = "\033[0m"
+_green = "\033[92m"
+_addinfo = "\033[37m"
+
+def run(*, ip="10.0.0.37:8080", lan=False):
     """
-    This is abstracted for future modification of the running process. 
-    This will allow for a constantly running server to edit and see changes 
+    This is abstracted for future modification of the running process.
+    This will allow for a constantly running server to edit and see changes
     live later.
     """
+
+    print(f"\n{_reset}  🚀 \033[102m\033[90m builder.py {_reset} {_addinfo}v{_green}{__version__}\n")
+    print(f"{_reset}  Local:   http://localhost:8080")
+
+    if lan == True: 
+        print(f"{_reset}  Network: http://{ip}\n")
+    else:
+        print(f"{_reset}  Network: {_addinfo}use lan=True to expose{_reset}\n")
+
     find_and_build_files()
+
+def build_release():
+    pass
 
 def find_and_build_files():
     """

@@ -30,7 +30,8 @@ def fatal(string: str):
     print(f"{_red}{_bold}     Fatal{_reset} {string}")
 
 def error(string: str):
-    pass
+    if print_fatal == False: return
+    print(f"{_red}{_bold}     Error{_reset} {string}")
 
 # --------------------
 
