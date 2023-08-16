@@ -26,6 +26,15 @@ class File:
         self.path = path
 
         # log.debug("File: ", self.name, " at location: ", self.path " has been created")
+    
+    def write_to(self, path: str, *, safety=1): # may also need to take content.
+        """
+        Writes a compiled file to the path provided, overwriting a previous file if existent.
+
+        [!] DANGER: This function is blind! It will overwrite anything at the desired path,
+        consider usng `write()` for a less blind function! (Fix this!)
+        """
+        
 
 def run():
     """
@@ -55,10 +64,10 @@ def find_and_build_files():
         if os.path.isdir(userspace.output_directory) == False:
             os.mkdir(userspace.output_directory)
 
-        search_buildable_files(child)
+        search_buildable_files(child, 0)
 
 # WARNING: This is recursive! We need to put an upper limit on recursions!
-def search_buildable_files(child):
+def search_buildable_files(child, recursion):
     """
     Iterates over the current contents of a directory. 
     
@@ -74,6 +83,12 @@ def search_buildable_files(child):
     If a file is the wrong extension, do the same actions but copy the file 
     instead of building.
     """
+    recursion += 1
+
+    if recursion >= userspace.recursion_upper_bound:
+        log.fatal("Recursion limit exeeded: build failed! core.py:search_buildable_files")
+        exit()
+
     for child in pathlib.Path(child).iterdir():
         # If the path is a directory, 
         # we need to search in that directory for more files to build
@@ -82,7 +97,7 @@ def search_buildable_files(child):
             if os.path.exists(get_output_file(child)) == False:
                 os.mkdir(get_output_file(child))
             
-            search_buildable_files(child)
+            search_buildable_files(child, recursion)
             continue
 
         # Need to add an option to rebuild all files on release build

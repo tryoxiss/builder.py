@@ -10,6 +10,8 @@ input_component_directory = "components"
 output_directory = "target"
 content_output_extension = ".html"
 
+recursion_upper_bound = 99
+
 prettify_links = True
 
 md_config = modern_markdown.ModernMarkdownConfig()
