@@ -107,11 +107,15 @@ def search_buildable_files(child, recursion):
         
         # If the file has a mentioned content file extention, build it
         if userspace.content_file_extention.__contains__(child.suffix):
-            userspace.build( File(str(child)) )
+            code = userspace.build( File(str(child)) )
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
             shutil.copyfile(child, get_output_file(child))
-            pass
+
+        match code:
+            case 0: log.built(f"{child}")
+            case _: log.error(f"(unknown) for {child}")
+
 
 def get_output_file(path: pathlib.Path) -> str:
     """

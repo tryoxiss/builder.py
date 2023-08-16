@@ -1,5 +1,6 @@
 import builder_modules.core as core # Ignore this <3
 import builder_modules.modern_markdown as modern_markdown
+import builder_modules.log as log
 
 # Main config variables! These are what you most likely want to tweak.
 input_content_directory = "content"
@@ -31,6 +32,8 @@ def build(file) -> int:
     this as needed)
     """
 
+
+
     # core.shutil.copyfile(file.name, core.get_output_file(file.name))
 
     # print(modern_markdown_config.do_meow)
@@ -53,5 +56,14 @@ if __name__ == "__main__":
 
     # print(md_config.simple_inline["/"])
     # print(md_config.simple_inline["?"])
+
+    log.info("meow")
+    log.warning("meow")
+    log.debug("meow")
+    log.fatal("meow")
+
+    log.found("file")
+    log.built("file")
+    log.reload("file")
 
     core.run()
