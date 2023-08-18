@@ -1,0 +1,8 @@
+<style>
+a
+{
+    padding: 0.5em 0.25em;
+    background-color: var(--accent-color)
+}
+</style>
+<a><slot /></a>
