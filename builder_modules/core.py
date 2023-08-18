@@ -45,8 +45,8 @@ def run(*, ip="10.0.0.37:8080", lan=False):
     This will allow for a constantly running server to edit and see changes
     live later.
     """
-
-    print(f"\n{_reset}  🚀 \033[102m\033[90m builder.py {_reset} {_addinfo}v{_green}{__version__}\n")
+        # SH = 🚀, weird windows bug
+    print(f"\n{_reset}  SH \033[102m\033[90m builder.py {_reset} {_addinfo}v{_green}{__version__}\n")
     print(f"{_reset}  Local:   http://localhost:8080")
 
     if lan == True: 

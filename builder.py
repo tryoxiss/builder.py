@@ -1,5 +1,6 @@
 import builder_modules.core as core # Ignore this <3
 import builder_modules.modern_markdown as modern_markdown
+import builder_modules.htcl_template as htcl_template
 import builder_modules.log as log
 
 host_to_lan = False
