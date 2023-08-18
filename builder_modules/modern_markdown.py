@@ -6,8 +6,6 @@ def compile(string: str, *, config):
     compiler = ModernMarkdownCompiler(config=config)
     compiler.compile(string)
 
-    # print(string)
-
 class ModernMarkdownCompiler:
     lines = []
     config = None
@@ -137,10 +135,17 @@ class ModernMarkdownConfig:
         if len(value) > simple_inline_max_token_length:
             simple_inline_max_token_length = len(value)
     
-    ## like simple inline tokens but instead of requireing on both sides and requireing an html tag and it 
+    # like simple inline tokens but instead of requireing on both sides and requireing an html tag and it 
     # see something and it will replace it if it is not a vaild token it will replace it wiwth the character on the se
     # cond thing for example two hyphens would replace it with an emdash
     # (EMOJIS BASICALLY) (NOT APART O FTHIS FILE?) <- Maybe
+    # HTTL = HyperText Template Language
+
+    # I guess we will do it the same way we do it for dim?
+    # a csv file with the emoji/file,shortcode
+    # �,star2
+    # opal_sparkles.jpg,opal_sparkles
+    # custom emojis are a ModernMarkdown thing still
 
     do_right_align = True
     do_left_align = True
@@ -154,7 +159,7 @@ class ModernMarkdownConfig:
     do_tables = True
 
     do_callouts = True
-    callout_components = { # HTTL = HyperText Template Language
+    callout_components = { 
         "info": "Info",
         "warn": "Warn",
         "question": "Faq",
