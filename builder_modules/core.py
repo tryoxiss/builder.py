@@ -37,7 +37,7 @@ class File:
 
 _reset = "\033[0m"
 _green = "\033[92m"
-_addinfo = "\033[37m"
+_addinfo = "\033[37m" # wrong clor, should be bright black.
 
 def run(*, ip="10.0.0.37:8080", lan=False):
     """
