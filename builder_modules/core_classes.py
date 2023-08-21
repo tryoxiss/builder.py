@@ -36,7 +36,7 @@ class File:
         """
         Returns the files name without the extension.
         """
-        return self.path.rsplit('/', 1)[-1].rsplit('.', 1)[0]
+        return self.path.rsplit('.', 1)[0].rsplit('/', 1)[-1]
 
     def write_to(self, path: str, *, safety=1): # may also need to take content.
         """
