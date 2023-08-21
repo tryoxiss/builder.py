@@ -4,7 +4,7 @@ def compile(string: str, *, config):
     """
 
     compiler = ModernMarkdownCompiler(config=config)
-    compiler.compile(string)
+    return compiler.compile(string)
 
 class ModernMarkdownCompiler:
     lines = []
@@ -26,6 +26,7 @@ class ModernMarkdownCompiler:
             if self.config.simple_inline.__contains__(string[index:length + index]) == False:
                 length -= 1
                 continue
+
 
             return string[index:length + index]
         return ""
@@ -51,6 +52,7 @@ class ModernMarkdownCompiler:
                 line.append(token)
                 character += len(token)
 
+        line.append(string[len(string) - since_last_token:len(string)])
         return line
 
 
@@ -65,7 +67,7 @@ class ModernMarkdownCompiler:
             if self.config.simple_inline.__contains__(token) == False:
                 continue
 
-            if line[index:-1].count(token) <= 0:
+            if line[index + 1:].count(token) <= 0:
                 continue
 
             next_similar_token = line[index + 1:].index(token) + (index + 1)

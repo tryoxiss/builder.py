@@ -6,34 +6,8 @@ import shutil
 import time
 
 import builder as userspace
+import builder_modules.core_classes as classes
 import builder_modules.log as log
-
-class File:
-    """
-    A custom file class for builder.py.
-    """
-
-    content = str
-    path = str
-
-    def __init__(self, path: str):
-        # Import current content file and pass to the builder
-
-        # Opens the buildable file in read only
-        self.content = open(f'{path}', "r").read()
-
-        # Stores the files path
-        self.path = path
-
-        # log.debug("File: ", self.name, " at location: ", self.path " has been created")
-    
-    def write_to(self, path: str, *, safety=1): # may also need to take content.
-        """
-        Writes a compiled file to the path provided, overwriting a previous file if existent.
-
-        [!] DANGER: This function is blind! It will overwrite anything at the desired path,
-        consider usng `write()` for a less blind function! (Fix this!)
-        """
 
 _reset = "\033[0m"
 _green = "\033[92m"
@@ -120,15 +94,19 @@ def search_buildable_files(child, recursion):
         # if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
         #     continue
         
+        code = 3 # No file made
+
         # If the file has a mentioned content file extention, build it
         if userspace.content_file_extention.__contains__(child.suffix):
-            code = userspace.build( File(str(child)) )
+            code = userspace.build( classes.File(str(child)) )
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
+            code = 1 # File copied
             shutil.copyfile(child, get_output_file(child))
 
         match code:
             case 0: log.built(f"{child}")
+            case 1: continue
             case _: log.error(f"(unknown) for {child}")
 
 

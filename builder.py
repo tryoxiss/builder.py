@@ -1,6 +1,7 @@
 import builder_modules.core as core # Ignore this <3
 import builder_modules.modern_markdown as modern_markdown
 import builder_modules.htcl_template as htcl_template
+import builder_modules.core_classes as classes
 import builder_modules.log as log
 
 host_to_lan = False
@@ -29,7 +30,7 @@ md_config.simple_inline["?"] = "mew"
 
 # This is more complex, feel free to ignore everything below this!
 
-def build(file) -> int:
+def build(file: classes.File) -> int:
     """
     Defines the per-file build process. The return value true if it was
     built successfully and false if an error occured. (Feel free to change
@@ -38,19 +39,17 @@ def build(file) -> int:
 
 
 
-    # core.shutil.copyfile(file.name, core.get_output_file(file.name))
-
-    # print(modern_markdown_config.do_meow)
-
     file.content = modern_markdown.compile(file.content, config=md_config)
     # This is where you add extensions! Just run its function
     # as part of the build process
+
+    # apply htcl template
 
     # check dead links
     # minify
     # generate permalink
 
-    # file.write_to(f"{file.path.rstrip(userspace.content_file_extention)}/index.html")
+    file.write_to(core.get_output_file(f"{file.path.rsplit('.', 1)[0]}"))
 
     return 0
 
