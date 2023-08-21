@@ -32,6 +32,12 @@ class File:
         """
         return self.path.rsplit('.', 1)[0]
     
+    def extension(self) -> str:
+        """
+        Returns the files extension, like `.md`.
+        """
+        return self.path.rsplit('.', 1)[-1]
+    
     def name_without_extension(self) -> str:
         """
         Returns the files name without the extension.

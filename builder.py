@@ -39,7 +39,16 @@ def build(file: classes.File) -> int:
 
     # TODO: Skip through the header for modern markdown or remove it initially and turn it into variables
 
-    file.content = modern_markdown.compile(file.content, config=md_config)
+    # Example of how you can compile files with diffrent extensions.
+    # match file.extension():
+    #     case "md":
+    #         file.content = modern_markdown.compile(file.content, config=md_config)
+    #     case _:
+    #         pass
+
+    
+    # file.content = modern_markdown.compile(file.content, config=md_config)
+
     # This is where you add extensions! Just run its function
     # as part of the build process
 
