@@ -49,7 +49,7 @@ def build(file: classes.File) -> int:
     # minify
     # generate permalink
 
-    file.write_to(core.get_output_file(f"{file.path.rsplit('.', 1)[0]}"))
+    file.write_fancy(core.get_output_variant(f"{file.without_extension()}"))
 
     return 0
 

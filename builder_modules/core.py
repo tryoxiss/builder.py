@@ -83,8 +83,8 @@ def search_buildable_files(child, recursion):
         # we need to search in that directory for more files to build
         if os.path.isdir(child) == True:
             # Create the directory for output
-            if os.path.exists(get_output_file(child)) == False:
-                os.mkdir(get_output_file(child))
+            if os.path.exists(get_output_variant(child)) == False:
+                os.mkdir(get_output_variant(child))
             
             search_buildable_files(child, recursion)
             continue
@@ -102,7 +102,7 @@ def search_buildable_files(child, recursion):
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
             code = 1 # File copied
-            shutil.copyfile(child, get_output_file(child))
+            shutil.copyfile(child, get_output_variant(child))
 
         match code:
             case 0: log.built(f"{child}")
@@ -110,7 +110,7 @@ def search_buildable_files(child, recursion):
             case _: log.error(f"(unknown) for {child}")
 
 
-def get_output_file(path: pathlib.Path) -> str:
+def get_output_variant(path: pathlib.Path) -> str:
     """
     Takes a path to a file and replaces the first case of the input directory
     with the output directory to create the output files path.
