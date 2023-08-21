@@ -94,7 +94,7 @@ def search_buildable_files(child, recursion):
         # if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
         #     continue
         
-        code = 3 # No file made
+        code = -1
 
         # If the file has a mentioned content file extention, build it
         if userspace.content_file_extention.__contains__(child.suffix):
