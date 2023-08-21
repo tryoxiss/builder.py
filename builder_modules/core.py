@@ -58,18 +58,16 @@ def find_and_build_files():
 # WARNING: This is recursive! We need to put an upper limit on recursions!
 def search_buildable_files(child, recursion):
     """
-    Iterates over the current contents of a directory. 
+    Recursively iterates over the current contents of a directory.
     
     If it is a directory that does not yet exist in the output, create the
     output file.
     
-    If it is a directory, then run this function to run through that directory.
-    
-    If it is a file that is the correct file extension and the output files 
-    modify date is younger then the input, build a new file to output. If the 
+    If it is a file that is the correct file extension and the output files
+    modify date is younger then the input, build a new file to output. If the
     file is older, then ignore.
     
-    If a file is the wrong extension, do the same actions but copy the file 
+    If a file is the wrong extension, do the same actions but copy the file
     instead of building.
     """
     recursion += 1
@@ -85,7 +83,7 @@ def search_buildable_files(child, recursion):
             # Create the directory for output
             if os.path.exists(get_output_variant(child)) == False:
                 os.mkdir(get_output_variant(child))
-            
+
             search_buildable_files(child, recursion)
             continue
 
@@ -93,7 +91,7 @@ def search_buildable_files(child, recursion):
         # If a file hasn't been edited after the previous build time, continue
         # if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
         #     continue
-        
+
         code = -1
 
         # If the file has a mentioned content file extention, build it
