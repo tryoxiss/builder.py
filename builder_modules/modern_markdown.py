@@ -52,7 +52,8 @@ class ModernMarkdownCompiler:
                 line.append(token)
                 character += len(token)
 
-        line.append(string[len(string) - since_last_token:len(string)])
+        if since_last_token > 0:
+            line.append(string[len(string) - since_last_token:len(string)])
         return line
 
 
