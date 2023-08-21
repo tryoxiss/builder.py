@@ -4,6 +4,7 @@ import pathlib
 import os
 import shutil
 import time
+import platform
 
 import builder as userspace
 import builder_modules.core_classes as classes
@@ -19,8 +20,17 @@ def run(*, ip="10.0.0.37:8080", lan=False):
     This will allow for a constantly running server to edit and see changes
     live later.
     """
+
+    icon = "<>"
+
+    os = platform.system()
+    match os:
+        case 'Windows': icon = "<>"
+        case 'Linux': icon = "🚀"
+        case _: icon = "<>"
+
         # SH = 🚀, weird windows bug
-    print(f"\n{_reset}  SH \033[102m\033[90m builder.py {_reset} {_addinfo}v{_green}{__version__}\n")
+    print(f"\n{_reset}  {icon} \033[102m\033[90m builder.py {_reset} {_addinfo}v{_green}{__version__}\n")
     print(f"{_reset}  Local:   http://localhost:8080")
 
     if lan == True: 
