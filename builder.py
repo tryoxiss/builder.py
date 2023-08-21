@@ -37,13 +37,13 @@ def build(file: classes.File) -> int:
     this as needed)
     """
 
-
+    # TODO: Skip through the header for modern markdown or remove it initially and turn it into variables
 
     file.content = modern_markdown.compile(file.content, config=md_config)
     # This is where you add extensions! Just run its function
     # as part of the build process
 
-    # apply htcl template
+    # TODO: Apply htcl template
 
     # check dead links
     # minify
