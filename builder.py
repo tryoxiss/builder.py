@@ -32,7 +32,7 @@ md_config.simple_inline["?"] = "mew"
 
 def build(file: classes.File) -> int:
     """
-    Defines the per-file build process. The return value true if it was
+    Defines the per-file build process. The return value is 0 if it was
     built successfully and false if an error occured. (Feel free to change
     this as needed)
     """

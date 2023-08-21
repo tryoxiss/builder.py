@@ -106,8 +106,8 @@ def search_buildable_files(child, recursion):
 
         match code:
             case 0: log.built(f"{child}")
-            case 1: continue
-            case _: log.error(f"(unknown) for {child}")
+            case 1: log.copied(f"{child}")
+            case _: log.error(f"(unknown) for {child}! If this occurs, one of you devs needs to add an error for case {code}!")
 
 
 def get_output_variant(path: pathlib.Path) -> str:

@@ -41,6 +41,9 @@ def found(file: str):
 def built(file: str):
     print(f"{_green}{_bold}     Built{_reset} {file}")
 
+def copied(file: str):
+    print(f"{_green}{_bold}    Copued{_reset} {file}")
+
 def reload(file: str):
     print(f"{_green}{_bold} Reloading{_reset} {file}")
 
