@@ -67,7 +67,6 @@ def find_and_build_files():
 
         search_buildable_files(child, 0)
 
-# WARNING: This is recursive! We need to put an upper limit on recursions!
 def search_buildable_files(child, recursion):
     """
     Recursively iterates over the current contents of a directory.
@@ -89,7 +88,7 @@ def search_buildable_files(child, recursion):
         exit()
 
     for child in pathlib.Path(child).iterdir():
-        # If the path is a directory, 
+        # If the path is a directory,
         # we need to search in that directory for more files to build
         if os.path.isdir(child) == True:
             # Create the directory for output

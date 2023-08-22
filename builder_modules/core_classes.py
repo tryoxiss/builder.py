@@ -19,7 +19,7 @@ class File:
         self.path = path
 
         # log.debug("File: ", self.name, " at location: ", self.path " has been created")
-    
+
     def name(self) -> str:
         """
         Returns the files name.
@@ -31,13 +31,13 @@ class File:
         Returns the files full path without the extension.
         """
         return self.path.rsplit('.', 1)[0]
-    
+
     def extension(self) -> str:
         """
         Returns the files extension, like `.md`.
         """
         return self.path.rsplit('.', 1)[-1]
-    
+
     def name_without_extension(self) -> str:
         """
         Returns the files name without the extension.
