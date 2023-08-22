@@ -20,7 +20,7 @@ class LoadingBar:
         self.progress += 1
         self.__print(task=task)
 
-    def __print(self, *, task="<Unknown>"):
+    def __print(self, task="<Unknown>"):
         completed_percent = (self.progress * 100 / self.total)
         bar_competed_characters = round(completed_percent / 2, 0)
 
