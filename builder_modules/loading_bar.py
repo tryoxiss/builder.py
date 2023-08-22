@@ -1,6 +1,6 @@
 class LoadingBar:
-    progress: int
-    TOTAL: int
+    _progress: int
+    _TOTAL: int
 
     _previous_length = 0
 
