@@ -14,7 +14,7 @@ class LoadingBar:
     begin_symbol = "["
     end_symbol = "]"
     loaded_symbol = "#"
-    unloaded_symbol = "."
+    unloaded_symbol = "_"
 
     def __init__(self, required_progress: int, first_task):
         self.progress = 0
