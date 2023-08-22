@@ -7,9 +7,14 @@ class LoadingBar:
     _up_line = "\033[F"
 
     loaded_color = "\033[92m"
-    unloaded_color = "\033[30m"
+    unloaded_color = "\033[37m"
     symbol_color = "\033[37m"
     text_color = "\033[97m"
+
+    begin_symbol = "["
+    end_symbol = "]"
+    loaded_symbol = "#"
+    unloaded_symbol = "."
 
     def __init__(self, required_progress: int, first_task):
         self.progress = 0
@@ -32,7 +37,7 @@ class LoadingBar:
         if completed_percent == 0:
             print("\033[0m")
 
-        print(f"{self._up_line}{self.symbol_color}[{self.loaded_color}{'#' * int(bar_competed_characters)}{self.unloaded_color}{(50 - int(bar_competed_characters)) * '.'}{self.symbol_color}] {self.text_color}{round(completed_percent, 1)}{self.symbol_color}%")
+        print(f"{self._up_line}{self.symbol_color}{self.begin_symbol}{self.loaded_color}{self.loaded_symbol * int(bar_competed_characters)}{self.unloaded_color}{(50 - int(bar_competed_characters)) * self.unloaded_symbol}{self.symbol_color}{self.end_symbol} {self.text_color}{round(completed_percent, 1)}{self.symbol_color}%")
         print(f"{self.text_color}{task}{' ' * self._previous_length}{self._up_line}")
 
         # >= cause python jank
