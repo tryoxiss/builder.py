@@ -13,6 +13,7 @@ class ModernMarkdownCompiler:
     def __init__(self, *, config):
         self.config = config
 
+
     def find_token(self, string: str, index: int) -> str:
         """
         Takes a string and an index and will provide the token found. 
@@ -30,6 +31,7 @@ class ModernMarkdownCompiler:
 
             return string[index:length + index]
         return ""
+
 
     def tokenize(self, string: str) -> list:
         """
@@ -57,8 +59,6 @@ class ModernMarkdownCompiler:
         return line
 
 
-
-
     def replace(self, line: list):
         """
         Takes in a tokenized list and outputs a list with each token replaced 
@@ -76,6 +76,7 @@ class ModernMarkdownCompiler:
             line[index] = f"<{self.config.simple_inline[token]}>"
         
         return line
+
 
     def compile(self, string: str) -> str:
         """

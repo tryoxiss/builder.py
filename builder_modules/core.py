@@ -107,7 +107,10 @@ def search_buildable_files(child, recursion):
 
         # If the file has a mentioned content file extention, build it
         if userspace.content_file_extention.__contains__(child.suffix):
-            code = userspace.build( classes.File(str(child)) )
+            try:
+                code = userspace.build( classes.File(str(child)) )
+            except:
+                log.error("No `build()` function found in `builder.py`! Please add it!")
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
             code = 1 # File copied

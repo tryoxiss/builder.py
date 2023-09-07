@@ -18,3 +18,27 @@ class HtclTemplateConfig:
 class HtclTemplate:
     def __init__(self, *, config):
         pass
+
+class HtclDocument:
+    def __init__(self):
+        pass
+
+class HtclNode:
+    name = "Meow"
+    contents = list
+    attributes = dict
+
+    def __init__(self):
+        name = "meow"
+        contents = []
+        attributes = {}
+
+    def is_component(self):
+
+        if len(self.name) >= 1:
+            return self.name[0].isupper()
+        else:
+            return False
+
+    def create_node():
+        pass
