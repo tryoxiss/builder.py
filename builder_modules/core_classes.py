@@ -61,7 +61,7 @@ class File:
         file.write(self.content)
         file.close()
 
-    def write_fancy(self, path: str, *, safety=1): # may also need to take content.
+    def write_fancy(self, path: str, *, safety=1, extension="html"): # may also need to take content.
         """
         Writes a compiled file to the absolute path provided, followed by `/index.html
         to add a trailing slash in browsers. overwriting a previous file if existent,
@@ -73,6 +73,6 @@ class File:
         if os.path.exists(path) == False:
             os.makedirs(path)
 
-        file = open(f"{path}/index{userspace.content_output_extension}", "w")
+        file = open(f"{path}/index.{extension}", "w")
         file.write(self.content)
         file.close()

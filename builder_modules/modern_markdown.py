@@ -114,7 +114,7 @@ class ModernMarkdownConfig:
         "^": "sup",
         "_": "sub",
 
-        "--": "del",
+        "~-": "del",
         "++": "ins",
 
         "~~": "s",
@@ -128,6 +128,11 @@ class ModernMarkdownConfig:
 
         # "***": "hr",
         # "---": "hr"
+    }
+
+    typography = {
+        "---": "—",
+        "--": "–",
     }
 
     # Get the max length of any string inside of the simple inline dictionary.
@@ -166,23 +171,7 @@ class ModernMarkdownConfig:
     callout_components = { 
         "info": "Info",
         "warn": "Warn",
-        "question": "Faq",
-        "faq": "Faq",
+        "question": "Question",
+        "faq": "Question",
         "danger": "Danger",
     }
-
-
-class ModernMarkdown:
-    def __init__(self):
-        pass
-    
-    def inline_token():
-        pass
-    
-    def list_token():
-        pass
-    
-    def callout():
-        pass
-    
-    # etc ...

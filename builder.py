@@ -3,22 +3,15 @@ import builder_modules.modern_markdown as modern_markdown
 import builder_modules.htcl_template as htcl_template
 import builder_modules.core_classes as classes
 import builder_modules.log as log
+import builder_modules.config as config
 
 host_to_lan = False
 mode = "live" # live | release
 
 # Main config variables! These are what you most likely want to tweak.
-input_content_directory = "content"
-content_file_extention = [".md", ".txt"]
-only_template_compilation = [".htcl", ".httl"]
-input_component_directory = "components"
-
-output_directory = "target"
-content_output_extension = ".html"
-
-recursion_upper_bound = 99
-
-prettify_links = True
+# In most IDE's you can CTRL+Click on the `config.` to view all variables!
+config.content.extensions = [".md", ".txt"]
+config.components.extensions = [".htcl", ".httl"]
 
 md_config = modern_markdown.ModernMarkdownConfig()
 
@@ -30,11 +23,9 @@ md_config.simple_inline["?"] = "mew"
 
 # This is more complex, feel free to ignore everything below this!
 
-def build(file: classes.File) -> int:
+def build(file: classes.File) -> None:
     """
-    Defines the per-file build process. The return value is 0 if it was
-    built successfully and false if an error occured. (Feel free to change
-    this as needed)
+    Defines the per-file build process. This function returns nothing :3
     """
 
     # TODO: Skip through the header for modern markdown or remove it initially and turn it into variables
@@ -46,7 +37,6 @@ def build(file: classes.File) -> int:
     #     case _:
     #         pass
 
-    
     # file.content = modern_markdown.compile(file.content, config=md_config)
 
     # This is where you add extensions! Just run its function
@@ -60,24 +50,8 @@ def build(file: classes.File) -> int:
 
     file.write_fancy(core.get_output_variant(f"{file.without_extension()}"))
 
-    return 0
-
 # Now we just run the main process!
 if __name__ == "__main__":
-    # md_config.simple_inline["||"] = "OwO"
-
-    # print(md_config.simple_inline["/"])
-    # print(md_config.simple_inline["?"])
-
-    log.info("meow")
-    log.warning("meow")
-    log.debug("meow")
-    log.fatal("meow")
-
-    log.found("file")
-    log.built("file")
-    log.reload("file")
-
     if mode == "live":
         core.run(lan=host_to_lan)
     elif mode == "release":

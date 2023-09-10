@@ -37,8 +37,14 @@ class LoadingBar:
         if completed_percent == 0:
             print("\033[0m")
 
-        print(f"{self._up_line}{self.symbol_color}{self.begin_symbol}{self.loaded_color}{self.loaded_symbol * int(bar_competed_characters)}{self.unloaded_color}{(50 - int(bar_competed_characters)) * self.unloaded_symbol}{self.symbol_color}{self.end_symbol} {self.text_color}{round(completed_percent, 1)}{self.symbol_color}%")
-        print(f"{self.text_color}{task}{' ' * self._previous_length}{self._up_line}")
+        bar_start = f"{self._up_line}{self.symbol_color}{self.begin_symbol}{self.loaded_color}"
+        bar_progress = f"{self.loaded_symbol * int(bar_competed_characters)}{self.unloaded_color}{(50 - int(bar_competed_characters)) * self.unloaded_symbol}"
+        bar_end = f"{self.symbol_color}{self.end_symbol}"
+        bar_percentage = f"{self.text_color}{round(completed_percent, 1)}{self.symbol_color}%"
+        bar_current_task = f"{self.text_color}{task}{' ' * self._previous_length}{self._up_line}"
+
+        print(f"{bar_start}{bar_progress}{bar_end} {bar_percentage}")
+        print(f"{bar_current_task}")
 
         # >= cause python jank
         if completed_percent >= 100:

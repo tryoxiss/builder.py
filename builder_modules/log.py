@@ -1,11 +1,3 @@
-_green = "\033[92m"
-_yellow = "\033[93m"
-_blue = "\033[96m"
-_red = "\033[91m"
-
-_bold = "\033[1m"
-_reset = "\033[0m"
-
 print_info = True
 print_warning = True
 print_debug = False
@@ -13,39 +5,65 @@ print_fatal = True
 
 # ┃
 
+import platform
+import builder_modules.design as design
+from builder_modules.core import __version__
+
+def intro(ip, lan):
+    icon = "[]"
+
+    os = platform.system()
+
+    # For some reason python on windows dosen't like displaying emojis in terminals.
+    os = "Windows"
+    match os:
+        case 'Windows': icon = "<>"
+        case 'Linux': icon = "🚀"
+        case _: icon = "<>"
+
+    print(f"\n{design.reset}  {icon} \033[102m\033[90m builder.py {design.reset} {design.addinfo}v{design.green}{__version__} <Not implemented yet>\n")
+    print(f"{design.reset}  Local:   http://localhost:8080")
+
+    if lan == True: 
+        print(f"{design.reset}  Network: http://{ip}\n")
+    else:
+        print(f"{design.reset}  Network: {design.addinfo}use lan=True to expose{design.reset}\n")
+
+    # Maybe add a "serving from" thing?
+
 def info(string: str):
     if print_info == False: return
-    print(f"{_blue}{_bold}      Info{_reset} {string}")
+    print(f"{design.blue}{design.bold}      Info{design.reset} {string}")
 
 def warning(string: str):
     if print_warning == False: return
-    print(f"{_yellow}{_bold}   Warning{_reset} {string}")
+    print(f"{design.yellow}{design.bold}   Warning{design.reset} {string}")
 
 def debug(string: str):
     if print_debug == False: return
-    print(f"{_green}{_bold}     Debug{_reset} {string}")
+    print(f"{design.green}{design.bold}     Debug{design.reset} {string}")
 
 def fatal(string: str):
     if print_fatal == False: return
-    print(f"{_red}{_bold}     Fatal{_reset} {string}")
+    print(f"{design.red}{design.bold}     Fatal{design.reset} {string}")
 
 def error(string: str):
     if print_fatal == False: return
-    print(f"{_red}{_bold}     Error{_reset} {string}")
+    print(f"{design.red}{design.bold}     Error{design.reset} {string}")
 
 # --------------------
 
 def found(file: str):
-    print(f"{_green}{_bold}     Found{_reset} {file}")
+    print(f"{design.green}{design.bold}     Found{design.reset} {file}")
 
 def built(file: str):
-    print(f"{_green}{_bold}     Built{_reset} {file}")
+    print(f"{design.green}{design.bold}     Built{design.reset} {file}")
 
 def copied(file: str):
-    print(f"{_green}{_bold}    Copied{_reset} {file}")
+    print(f"{design.green}{design.bold}    Copied{design.reset} {file}")
 
 def reload(file: str):
-    print(f"{_green}{_bold} Reloading{_reset} {file}")
+    print(f"{design.green}{design.bold} Reloading{design.reset} {file}")
 
 class Loading:
     pass

@@ -4,15 +4,13 @@ import pathlib
 import os
 import shutil
 import time
-import platform
 
-import builder as userspace
+from builder import build as build
 import builder_modules.core_classes as classes
 import builder_modules.log as log
+import builder_modules.config as config
 
-_reset = "\033[0m"
-_green = "\033[92m"
-_addinfo = "\033[37m" # wrong clor, should be bright black.
+builder_cache_location = ".buildercache"
 
 def run(*, ip="10.0.0.37:8080", lan=False):
     """
@@ -21,24 +19,7 @@ def run(*, ip="10.0.0.37:8080", lan=False):
     live later.
     """
 
-    icon = "[]"
-
-    os = platform.system()
-
-    # For some reason python on windows dosen't like displaying emojis in terminals.
-    os = "Windows"
-    match os:
-        case 'Windows': icon = "<>"
-        case 'Linux': icon = "🚀"
-        case _: icon = "<>"
-
-    print(f"\n{_reset}  {icon} \033[102m\033[90m builder.py {_reset} {_addinfo}v{_green}{__version__}\n")
-    print(f"{_reset}  Local:   http://localhost:8080")
-
-    if lan == True: 
-        print(f"{_reset}  Network: http://{ip}\n")
-    else:
-        print(f"{_reset}  Network: {_addinfo}use lan=True to expose{_reset}\n")
+    log.intro(ip, lan)
 
     find_and_build_files()
 
@@ -54,18 +35,19 @@ def find_and_build_files():
     """
     for child in pathlib.Path().iterdir():
         # We do not need to check for files if it is the content directory
-        if (child.name != userspace.input_content_directory):
-            continue
+        if (child.name != config.content.directory): continue
 
         # Make sure it is not a file named the same as the content directory
-        if (os.path.isfile(child) == True):
-            continue
+        if (os.path.isfile(child) == True): continue
 
         # Create the directory for output
-        if os.path.isdir(userspace.output_directory) == False:
-            os.mkdir(userspace.output_directory)
+        create_output_directory()
 
         search_buildable_files(child, 0)
+
+def create_output_directory():
+    if os.path.isdir(config.output.directory) == False:
+        os.mkdir(config.output.directory)
 
 def search_buildable_files(child, recursion):
     """
@@ -83,7 +65,7 @@ def search_buildable_files(child, recursion):
     """
     recursion += 1
 
-    if recursion >= userspace.recursion_upper_bound:
+    if recursion >= config.max_recursion:
         log.fatal("Recursion limit exeeded: build failed! core.py:search_buildable_files")
         exit()
 
@@ -103,27 +85,21 @@ def search_buildable_files(child, recursion):
         # if os.path.getmtime(get_output_file(child)) >= os.path.getmtime(child):
         #     continue
 
-        code = -1
-
         # If the file has a mentioned content file extention, build it
-        if userspace.content_file_extention.__contains__(child.suffix):
+        if config.content.extensions.__contains__(child.suffix):
             try:
-                code = userspace.build( classes.File(str(child)) )
+                build( classes.File(str(child)) )
+                "built": log.built(f"{child}")
             except:
                 log.error("No `build()` function found in `builder.py`! Please add it!")
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
-            code = 1 # File copied
             shutil.copyfile(child, get_output_variant(child))
-
-        match code:
-            case 0: log.built(f"{child}")
-            case 1: log.copied(f"{child}")
-            case _: log.error(f"(unknown) for {child}! If this occurs, one of you devs needs to add an error for case {code}!")
+            log.copied(f"{child}")
 
 def get_output_variant(path: pathlib.Path) -> str:
     """
     Takes a path to a file and replaces the first case of the input directory
     with the output directory to create the output files path.
     """
-    return str(path).replace(userspace.input_content_directory, userspace.output_directory, 1)
+    return str(path).replace(config.content.directory, config.output.directory, 1)

@@ -43,6 +43,16 @@ def paginate(per_page: int):
     behavour cannot be replicated.
     """
 
+    # get_posts_from_tag(10, tag="red", offset=page_number*per_page)
+
+def get_posts_from_tag(number, *, tag="untagged", offset=0):
+    """
+    Gets <number> pages from the provided tag starting at the
+    offset.
+    """
+
+    pass
+
 # We may need this
 # class Pagination:
 #     pass
