@@ -10,6 +10,38 @@ import builder_modules.core_classes as classes
 import builder_modules.log as log
 import builder_modules.config as config
 
+# This looks funky so lemmie explain.
+# This is a decorator, that returns a normal decorator. This lets
+# us take paramaters to the decorator. Make sense?
+# Yes... unfortuntely this nesting is needed...
+def expect(exception: str) -> str | any:
+    """
+    A decorator that takes an argument that will print if the function fails,
+    used to avoid heavy nesting caused by try-except statements in public
+    python APIs.
+
+    Returns the type from the decorated function, or a string if it raised an
+    exception.
+
+    This is best used in the most limited context possible, as you can basically
+    consider the function it is used on to be an unsafe block*.
+
+    \* No it won't call them all the way up the stack lik regular try-except blocks,
+    but its still best to avoid them for blocks you know are safe.
+    """
+    def decorator(function):
+        def wrapper(*args, **kwargs):
+            print("Trying bit ...")
+            try:
+                result = function(*args, **kwargs)
+                print("done!")
+            except:
+                log.error(exception)
+                result = exception
+            return result
+        return wrapper
+    return decorator
+
 builder_cache_location = ".buildercache"
 
 def run(*, ip="10.0.0.37:8080", lan=False):
@@ -43,13 +75,13 @@ def find_and_build_files():
         # Create the directory for output
         create_output_directory()
 
-        search_buildable_files(child, 0)
+        build_all_files(child, 0)
 
 def create_output_directory():
     if os.path.isdir(config.output.directory) == False:
         os.mkdir(config.output.directory)
 
-def search_buildable_files(child, recursion):
+def build_all_files(child, recursion):
     """
     Recursively iterates over the current contents of a directory.
     
@@ -66,18 +98,16 @@ def search_buildable_files(child, recursion):
     recursion += 1
 
     if recursion >= config.max_recursion:
-        log.fatal("Recursion limit exeeded: build failed! core.py:search_buildable_files")
+        log.fatal("Recursion limit exeeded: build failed! core.py:build_all_files")
         exit()
 
     for child in pathlib.Path(child).iterdir():
         # If the path is a directory,
         # we need to search in that directory for more files to build
         if os.path.isdir(child) == True:
-            # Create the directory for output
-            if os.path.exists(get_output_variant(child)) == False:
-                os.mkdir(get_output_variant(child))
+            confirm_output_exists()
 
-            search_buildable_files(child, recursion)
+            build_all_files(child, recursion)
             continue
 
         # Need to add an option to rebuild all files on release build
@@ -89,13 +119,17 @@ def search_buildable_files(child, recursion):
         if config.content.extensions.__contains__(child.suffix):
             try:
                 build( classes.File(str(child)) )
-                "built": log.built(f"{child}")
+                log.built(f"{child}")
             except:
                 log.error("No `build()` function found in `builder.py`! Please add it!")
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
             shutil.copyfile(child, get_output_variant(child))
             log.copied(f"{child}")
+
+def confirm_output_exists(item):
+    if os.path.exists(get_output_variant(item)) == False:
+        os.mkdir(get_output_variant(item))
 
 def get_output_variant(path: pathlib.Path) -> str:
     """

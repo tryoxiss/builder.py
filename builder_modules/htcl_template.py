@@ -12,6 +12,17 @@ def compile(string: str, *, config):
 # same. As long as they are unique. I might try a class called `.scope_ComponentName` though? Since
 # you can only have one component named the same thing, that should be gaurnteed to be unique.
 
+# NOTE ON IMPLEMENTING LISTS:
+# Semantically, a list inside a list SHOULD be contained inside an <li>
+# So:
+# <ul>
+#     <li> Content
+#     <ul>
+#         <li>Nested Item</li>
+#     </ul>
+#     </li>
+# </ul>
+
 class HtclTemplateConfig:
     pass
 

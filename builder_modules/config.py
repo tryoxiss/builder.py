@@ -10,6 +10,6 @@ class components:
 
 class output:
     directory:     str  = "target"
-    exclude_tags:  list[str] = ["exclude", "draft"]
+    exclude_tags:  list[str] = ["#exclude", "#draft"]
 
 max_recursion = 64
