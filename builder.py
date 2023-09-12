@@ -10,7 +10,7 @@ mode = "live" # live | release
 
 # Main config variables! These are what you most likely want to tweak.
 # In most IDE's you can CTRL+Click on the `config.` to view all variables!
-config.content.extensions = [".md", ".txt"]
+config.content.extensions = [".md", ".mmd", ".txt"]
 config.components.extensions = [".htcl", ".httl"]
 
 md_config = modern_markdown.ModernMarkdownConfig()

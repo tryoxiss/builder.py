@@ -70,6 +70,17 @@ class File:
         [!] DANGER: This function is blind! It will overwrite anything at the desired path!
         """
 
+        # Note: normally it goes to {path}/index.html, but if you had
+        # /posts/kittentd-devlog-1/
+        #       kittentd-devlog-1.md
+        #       screenshot1.png
+        #       (etc)
+        #
+        # then it would get written to /posts/kittentd-devlog-1/kittentd-devlog-1/index.html, which is ugly. So if the files name
+        # is the same as the directories or is `index` we want it to not create another directory.
+        #
+        # we also want to allow for pattersn like /posts/12/sep/2023/ and allow writing to multiple locations.
+
         if os.path.exists(path) == False:
             os.makedirs(path)
 
