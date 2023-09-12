@@ -15,13 +15,12 @@ def intro(ip, lan):
     os = platform.system()
 
     # For some reason python on windows dosen't like displaying emojis in terminals.
-    os = "Windows"
     match os:
         case 'Windows': icon = "<>"
         case 'Linux': icon = "🚀"
         case _: icon = "<>"
 
-    print(f"\n{design.reset}  {icon} \033[102m\033[90m builder.py {design.reset} {design.addinfo}v{design.green}{__version__} <Not implemented yet>\n")
+    print(f"\n{design.reset}  {icon} \033[102m\033[90m builder.py {design.reset} {design.addinfo}v{design.green}{__version__}\n")
     print(f"{design.reset}  Local:   http://localhost:8080")
 
     if lan == True: 

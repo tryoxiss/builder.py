@@ -56,6 +56,9 @@ class ModernMarkdownCompiler:
 
         if since_last_token > 0:
             line.append(string[len(string) - since_last_token:len(string)])
+
+        print()
+
         return line
 
 
@@ -92,7 +95,7 @@ class ModernMarkdownCompiler:
             tokenized_line = self.tokenize(splitlines[line])
             new_lines += "".join(self.replace(tokenized_line)) + "\n"
             line += 1
-        
+
         self.lines = new_lines
         return self.lines
 
@@ -114,10 +117,10 @@ class ModernMarkdownConfig:
         "^": "sup",
         "_": "sub",
 
-        "~-": "del",
+        "~~": "del",
         "++": "ins",
 
-        "~~": "s",
+        "~+": "s",
 
         "==": "mark",
         "===": "mute",
@@ -125,12 +128,9 @@ class ModernMarkdownConfig:
         "||": "Spoiler",
 
         "`": "code",
-
-        # "***": "hr",
-        # "---": "hr"
     }
 
-    typography = {
+    find_replace = {
         "---": "—",
         "--": "–",
     }

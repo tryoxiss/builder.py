@@ -10,11 +10,14 @@ import builder_modules.core_classes as classes
 import builder_modules.log as log
 import builder_modules.config as config
 
+from builder_modules.server import LiveServer
+from http.server import HTTPServer as HttpServer
+
 # This looks funky so lemmie explain.
 # This is a decorator, that returns a normal decorator. This lets
 # us take paramaters to the decorator. Make sense?
 # Yes... unfortuntely this nesting is needed...
-def expect(exception: str) -> str | any:
+def expect(exception: str) -> any:
     """
     A decorator that takes an argument that will print if the function fails,
     used to avoid heavy nesting caused by try-except statements in public
@@ -31,10 +34,8 @@ def expect(exception: str) -> str | any:
     """
     def decorator(function):
         def wrapper(*args, **kwargs):
-            print("Trying bit ...")
             try:
                 result = function(*args, **kwargs)
-                print("done!")
             except:
                 log.error(exception)
                 result = exception
@@ -44,14 +45,19 @@ def expect(exception: str) -> str | any:
 
 builder_cache_location = ".buildercache"
 
-def run(*, ip="10.0.0.37:8080", lan=False):
+def run(*, ip="127.0.0.1", port=8080, lan=False):
     """
     This is abstracted for future modification of the running process.
     This will allow for a constantly running server to edit and see changes
     live later.
     """
 
+    server = HttpServer((ip, port), LiveServer)
+
     log.intro(ip, lan)
+    server.serve_forever()
+
+    # We run a method to serve the files, so maybe for live server we can just build them as they are requested?
 
     find_and_build_files()
 
@@ -117,15 +123,16 @@ def build_all_files(child, recursion):
 
         # If the file has a mentioned content file extention, build it
         if config.content.extensions.__contains__(child.suffix):
-            try:
-                build( classes.File(str(child)) )
-                log.built(f"{child}")
-            except:
-                log.error("No `build()` function found in `builder.py`! Please add it!")
+            build_file(str(child))
         # elif (): # Else if the file is a mentioned compilation only file, compile it
         else: # This should be files such as images, JS documents, and others
             shutil.copyfile(child, get_output_variant(child))
             log.copied(f"{child}")
+
+@expect("There is either no `build()` function in builder.py or it contains errors.")
+def build_file(file_path):
+    build( classes.File(str(file_path)) )
+    log.built(f"{file_path}")
 
 def confirm_output_exists(item):
     if os.path.exists(get_output_variant(item)) == False:

@@ -1,12 +1,6 @@
 # The API you have access to by default in <?py/> blocks.
 
-# Should probably be core not api? idk
-# def paginate(per_page: int, posts: list):
-#     """
-
-#     """
-
-#     pass
+import builder_modules.core_classes as classes
 
 def htcl(string: str):
     """
@@ -43,54 +37,10 @@ def paginate(per_page: int):
     behavour cannot be replicated.
     """
 
-    # get_posts_from_tag(10, tag="red", offset=page_number*per_page)
-
-def get_posts_from_tag(number, *, tag="untagged", offset=0):
+def get_posts_from_tag(number, *, tag="untagged", offset=0) -> list[classes.File]:
     """
     Gets <number> pages from the provided tag starting at the
     offset.
     """
 
     pass
-
-# We may need this
-# class Pagination:
-#     pass
-
-# # for post in api.collections.posts.paginate()
-# # for post in api.collections.<Collection Name>.paginate()
-
-# class Collection:
-#     """
-#     A class that every collection should inherit from.
-#     """
-#     # INDEX   POURPOSE
-#     # -----   --------
-#     #    0    index page, same as page 1 by default
-#     # [...]   replaces the `$page` variable in the path.
-
-#     index_pages = []
-#     content_pages = []
-
-#     def __init__(self, *, content: list = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]):
-#         pass
-
-#     def paginate(self, per_page: int):
-#         local_index_pages = []
-#         local_content_pages = self.content_pages
-
-#         while local_content_pages != []:
-#             local_page = []
-
-#             for page in range(per_page):
-#                 local_page = local_page.append(page)
-#                 local_content_pages.pop(0)
-            
-#             local_index_pages = local_index_pages.append(local_page)
-        
-#         self.index_pages = local_index_pages
-
-# collection = Collection()
-# collection.paginate(4)
-
-# print(collection.index_pages)
