@@ -46,6 +46,8 @@ class MyHtmlParser(HtmlParser):
 
         # girls if your data starts with "{"
         # And ends with "}"
+        # THIS ONLY READS THE START/END THIS WAY! We NEED to be able
+        # to find variables inside longer strings like {api.page.title} * mywebsite.tld
         if data.startswith("{") and data.endswith("}"):
             # Thats not your data
             # Thats a variable!
