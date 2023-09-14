@@ -1,20 +1,20 @@
 html:
-    head:
-        meta { charset: "UTF-8" }
-        meta { name: "viewport", content: "width=device-width, initial-scale=1.0" }
-        title:
-            Document
-    style: "._meow { background-color: red;}"
-    body:
-        p._meow: "Purr"
+	head:
+		meta { charset: "UTF-8" }
+		meta { name: "viewport", content: "width=device-width, initial-scale=1.0" }
+		title:
+			Document
+	style: "._meow { background-color: red;}"
+	body:
+		p._meow: "Purr"
 
 <body>
-    <p class="_meow">Purr</p>
-    <div class="1">
-        <div class="2 1">Content 2 1</div>
-        <div class="2 2">
-            <div class="3"></div>
-        </div>
-    </div>
+	<p class="_meow">Purr</p>
+	<div class="1">
+		<div class="2 1">Content 2 1</div>
+		<div class="2 2">
+			<div class="3"></div>
+		</div>
+	</div>
 </body>
 </html>
