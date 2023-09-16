@@ -24,7 +24,7 @@ def expect(exception: str) -> any:
 	python APIs.
 
 	Returns the type from the decorated function, or a string if it raised an
-	exception.
+	exception. (I would use `any | str` but cpython don't like that very much)
 
 	This is best used in the most limited context possible, as you can basically
 	consider the function it is used on to be an unsafe block*.

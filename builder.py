@@ -1,8 +1,6 @@
 import builder_modules.core as core # Ignore this <3
 import builder_modules.modern_markdown as modern_markdown
-import builder_modules.htcl_template as htcl_template
 import builder_modules.core_classes as classes
-import builder_modules.log as log
 import builder_modules.config as config
 
 host_to_lan = False
@@ -37,7 +35,10 @@ def build(file: classes.File) -> None:
 	#	 case _:
 	#		 pass
 
-	# file.content = modern_markdown.compile(file.content, config=md_config)
+	#file.content = modern_markdown.compile(file, config=md_config)
+
+	file.content = modern_markdown.compile(file.content, config=md_config)
+	# file.content = syntax_hilight()
 
 	# This is where you add extensions! Just run its function
 	# as part of the build process
