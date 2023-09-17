@@ -8,6 +8,7 @@ class File:
 
 	content = str
 	path = str
+	header_variables = {}
 
 	def __init__(self, path: str):
 		# Import current content file and pass to the builder

@@ -156,6 +156,17 @@ class ModernMarkdownConfig:
 	# opal_sparkles.jpg,opal_sparkles
 	# custom emojis are a ModernMarkdown thing still
 
+	# NOTE ON IMPLEMENTING LISTS:
+	# Semantically, a list inside a list SHOULD be contained inside an <li>
+	# So:
+	# <ul>
+	#	 <li> Content
+	#	 <ul>
+	#		 <li>Nested Item</li>
+	#	 </ul>
+	#	 </li>
+	# </ul>
+
 	do_right_align = True
 	do_left_align = True
 	do_center_align = True

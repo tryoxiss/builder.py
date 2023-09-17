@@ -4,6 +4,6 @@
 </head>
 <body>
     <Header />
-    
-    
+    <slot />
+    <SHooloop />
 </body>

@@ -9,6 +9,7 @@ from builder import build as build
 import builder_modules.core_classes as classes
 import builder_modules.log as log
 import builder_modules.config as config
+import builder_modules.htcl_template as htcl_template
 
 from builder_modules.server import LiveServer
 from http.server import HTTPServer as HttpServer
@@ -46,20 +47,20 @@ def expect(exception: str) -> any:
 builder_cache_location = ".buildercache"
 
 def run(*, ip="127.0.0.1", port=8080, lan=False):
-	"""
-	This is abstracted for future modification of the running process.
-	This will allow for a constantly running server to edit and see changes
-	live later.
-	"""
+    """
+    This is abstracted for future modification of the running process.
+    This will allow for a constantly running server to edit and see changes
+    live later.
+    """
 
-	server = HttpServer((ip, port), LiveServer)
+    # server = HttpServer((ip, port), LiveServer)
 
-	log.intro(ip, lan)
-	server.serve_forever()
+    # log.intro(ip, lan)
+    # server.serve_forever()
 
-	# We run a method to serve the files, so maybe for live server we can just build them as they are requested?
+    # We run a method to serve the files, so maybe for live server we can just build them as they are requested?
 
-	find_and_build_files()
+    find_and_build_files()
 
 def build_release():
 	pass
@@ -124,7 +125,9 @@ def build_all_files(child, recursion):
 		# If the file has a mentioned content file extention, build it
 		if config.content.extensions.__contains__(child.suffix):
 			build_file(str(child))
-		# elif (): # Else if the file is a mentioned compilation only file, compile it
+		# Else if the file is a mentioned compilation only file, compile it
+		elif config.components.extensions.__contains__(child.suffix):
+			htcl_compile(str(child))
 		else: # This should be files such as images, JS documents, and others
 			shutil.copyfile(child, get_output_variant(child))
 			log.copied(f"{child}")
@@ -133,6 +136,9 @@ def build_all_files(child, recursion):
 def build_file(file_path):
 	build( classes.File(str(file_path)) )
 	log.built(f"{file_path}")
+
+def htcl_compile(file_path):
+	htcl_template.compile( classes.File(str(file_path)) )
 
 def confirm_output_exists(item):
 	if os.path.exists(get_output_variant(item)) == False:
