@@ -1,5 +1,8 @@
 """A parser for HTML and XHTML."""
 
+# This is directly based on the HTML parser found in the python standard library,
+# with the main change being to not make element names lowercase.
+
 # This file is based on sgmllib.py, but the API is slightly different.
 
 # XXX There should be a way to distinguish between PCDATA (parsed
@@ -120,7 +123,7 @@ class HTMLParser(_markupbase.ParserBase):
 		return self.__starttag_text
 
 	def set_cdata_mode(self, elem):
-		self.cdata_elem = elem
+		self.cdata_elem = elem.lower()
 		self.interesting = re.compile(r'</\s*%s\s*>' % self.cdata_elem, re.I)
 
 	def clear_cdata_mode(self):
@@ -173,7 +176,7 @@ class HTMLParser(_markupbase.ParserBase):
 				elif startswith("<!--", i):
 					k = self.parse_comment(i)
 				elif startswith("<?", i):
-					k = self.parse_pi(i) # k = self.parse_pi(i)
+					k = self.parse_pi(i)
 				elif startswith("<!", i):
 					k = self.parse_html_declaration(i)
 				elif (i + 1) < n:
@@ -261,7 +264,7 @@ class HTMLParser(_markupbase.ParserBase):
 			return self.parse_comment(i)
 		elif rawdata[i:i+3] == '<![':
 			return self.parse_marked_section(i)
-		elif rawdata[i:i+9] == '<!doctype':
+		elif rawdata[i:i+9].lower() == '<!doctype':
 			# find the closing >
 			gtpos = rawdata.find('>', i+9)
 			if gtpos == -1:

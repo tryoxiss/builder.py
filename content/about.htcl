@@ -11,6 +11,10 @@
         mew!
     </Mewo>
 
+    <?proc
+Hii!
+    /proc?>
+
     <?py
 def function():
     print("Hej!")

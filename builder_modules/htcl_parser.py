@@ -1,3 +1,4 @@
+import html.parser as LemmieViewItsSource
 import builder_modules.core_classes as classes
 
 from builder_modules.html_parser import HTMLParser as HtmlParser
@@ -64,8 +65,9 @@ class HtclTemplate(HtmlParser):
 			print("Found a slot <3")
 		print(f"Found startend tag! {tag}")
 
-	def handle_pi(data, *m):
-		print(data)
+	# Procesing Instructions, I know its a bad name.
+	def handle_pi(self, data):
+		pass
 
 
 
