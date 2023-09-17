@@ -1,4 +1,4 @@
-import builder_modules.htcl_template as htcl
+import builder_modules.htcl_parser as htcl
 
 # node = htcl.HtclNode()
 # print(node.is_component())

@@ -6,4 +6,13 @@
     <Header />
     <slot />
     <SHooloop />
+
+    <Mewo>
+        mew!
+    </Mewo>
+
+    <?py
+def function():
+    print("Hej!")
+    /py?>
 </body>

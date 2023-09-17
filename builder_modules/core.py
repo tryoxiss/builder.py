@@ -9,7 +9,7 @@ from builder import build as build
 import builder_modules.core_classes as classes
 import builder_modules.log as log
 import builder_modules.config as config
-import builder_modules.htcl_template as htcl_template
+import builder_modules.htcl_parser as parser
 
 from builder_modules.server import LiveServer
 from http.server import HTTPServer as HttpServer
@@ -138,7 +138,7 @@ def build_file(file_path):
 	log.built(f"{file_path}")
 
 def htcl_compile(file_path):
-	htcl_template.compile( classes.File(str(file_path)) )
+	parser.compile( classes.File(str(file_path)) )
 
 def confirm_output_exists(item):
 	if os.path.exists(get_output_variant(item)) == False:

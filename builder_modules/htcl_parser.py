@@ -1,6 +1,6 @@
 import builder_modules.core_classes as classes
 
-from html.parser import HTMLParser as HtmlParser
+from builder_modules.html_parser import HTMLParser as HtmlParser
 
 def compile(file: classes.File):
 	"""
@@ -58,17 +58,14 @@ class HtclTemplate(HtmlParser):
 			pass
 
 		print("Encountered some data  :", data)
-	
+
 	def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
 		if tag == "slot":
 			print("Found a slot <3")
 		print(f"Found startend tag! {tag}")
 
-
-
-
-
-
+	def handle_pi(data, *m):
+		print(data)
 
 
 
