@@ -2,6 +2,9 @@ class Compiler:
 	def compile(string: str):
 		print("Compiled :sparkles: (not really)")
 
+class AltCompiler:
+	def compile(string: str):
+		print("Compiling with alternate compiler")
 
 class Test:
 	name = "none"
@@ -24,7 +27,7 @@ class Meow(Test):
 		print("no")
 
 
-Meow().run()
+Meow(template_engine=AltCompiler()).handle_template()
 
 # meow = Meow()
 
