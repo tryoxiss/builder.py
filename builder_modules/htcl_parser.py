@@ -2,6 +2,7 @@ import html.parser as LemmieViewItsSource
 import builder_modules.core_classes as classes
 
 from builder_modules.html_parser import HTMLParser as HtmlParser
+import builder_modules.log as log
 
 def compile(file: classes.File):
 	"""
@@ -67,47 +68,26 @@ class HtclTemplate(HtmlParser):
 
 	# Procesing Instructions, I know its a bad name.
 	def handle_pi(self, data):
-		pass
+		print(f"Found a processing instruction: {data}")
 
+		if data.startswith("py"):
+			handle_py_block(strip_processing_instruction(data))
 
+def strip_processing_instruction(data):
+	return data.lstrip("py").rstrip("/py?").lstrip(" ").rstrip(" ").rstrip("/n").lstrip("/n")
 
+def handle_py_block(code: str):
+	print(code)
 
+	log.warning("handle_py_block blindly executes code contained within, make sure you check the code yourself!")
+	
+	# try:
+	exec(f"""
+import builder_modules.api as api
 
+{code}""")
+	# except:
+		# log.error(f"Invalid code: {code}")
 
-
-
-
-
-
-
-
-# class HtclTemplateConfig:
-# 	pass
-
-# class HtclTemplate:
-# 	def __init__(self, *, config):
-# 		pass
-
-# class HtclDocument:
-# 	def __init__(self):
-# 		pass
-
-# class HtclNode:
-# 	name = "Meow"
-# 	contents = list
-# 	attributes = dict
-
-# 	def __init__(self):
-# 		name = "meow"
-# 		contents = []
-# 		attributes = {}
-
-# 	def is_component(self):
-
-# 		if len(self.name) >= 1:
-# 			return self.name[0].isupper()
-# 		else:
-# 			return False
-
-# 	def create_node():
-# 		pass
+def _handle_component():
+	pass

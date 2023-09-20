@@ -2,6 +2,9 @@
 
 import builder_modules.core_classes as classes
 
+def meow():
+	print("Mewooo!!")
+
 def htcl(string: str):
 	"""
 	Insert the provided HTCL string into the page. This will be compiled

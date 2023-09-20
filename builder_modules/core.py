@@ -60,12 +60,12 @@ def run(*, ip="127.0.0.1", port=8080, lan=False):
 
     # We run a method to serve the files, so maybe for live server we can just build them as they are requested?
 
-    find_and_build_files()
+    build_all()
 
 def build_release():
 	pass
 
-def find_and_build_files():
+def build_all():
 	"""
 	Loops over every file in the main directory for the input content directory.
 	Create the output directory if the output directory does not exist and
@@ -139,6 +139,7 @@ def build_file(file_path):
 
 def htcl_compile(file_path):
 	parser.compile( classes.File(str(file_path)) )
+	log.built(f"{file_path}")
 
 def confirm_output_exists(item):
 	if os.path.exists(get_output_variant(item)) == False:

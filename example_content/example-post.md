@@ -18,7 +18,7 @@ Ut iste corporis placeat repellendus ipsum tempora nesciunt, [nam illum](wikiped
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Wuga odio consequuntur eum voluptatum reprehenderit temporibus, sed omnis illo? Quaerat non, possimus fugiat perspiciatis quasi doloremque nihil reprehenderit, [pariatur](/mystuff/dnd-tracker/dnd-tracker.py) (Download .py file, internal link) nam recusandae aliquam veritatis consequatur rem laborum commodi? Velit ipsam impedit maiores fugit repellat enim accusantium.
 
-## Heading 2 {heading-2}
+## Heading 2
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum quis modi officia sed alias, maiores, adipisci, quas facere voluptatibus nemo at doloremque porro dolore enim illum non nam. [Sunt, ex](/blog/other-post.html) (Link to another post, interal).
 
@@ -36,15 +36,15 @@ Now we need to test escapes, this should have \*astrisks\* around it, and \*\*TH
 
 \!\[and this is not even a link!](https://wallpapercave.com/wp/wp3711322.png)
 
-### Now we have headibgs 3 {h-3}
+### Now we have headibgs 3
 
-#### Four {four}
+#### Four
 
-##### Five {five}
+##### Five
 
-###### And six! {six}
+###### And six!
 
-####### But heading 7 dosent exist, so this should be a paragraph. 
+####### But heading 7 dosent exist, so this should be a paragraph.
 
 \# this should start with a hashtag
 

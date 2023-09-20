@@ -16,7 +16,8 @@ Hii!
     /proc?>
 
     <?py
-def function():
-    print("Hej!")
+api.meow()
+
+print("Hej!")
     /py?>
 </body>

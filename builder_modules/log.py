@@ -32,7 +32,7 @@ def intro(ip, lan):
 
 def info(string: str):
 	if print_info == False: return
-	print(f"{design.blue}{design.bold}	  Info{design.reset} {string}")
+	print(f"{design.blue}{design.bold}      Info{design.reset} {string}")
 
 def warning(string: str):
 	if print_warning == False: return
@@ -44,22 +44,22 @@ def debug(string: str):
 
 def fatal(string: str):
 	if print_fatal == False: return
-	print(f"{design.red}{design.bold}	 Fatal{design.reset} {string}")
+	print(f"{design.red}{design.bold}    Fatal{design.reset} {string}")
 
 def error(string: str):
 	if print_fatal == False: return
-	print(f"{design.red}{design.bold}	 Error{design.reset} {string}")
+	print(f"{design.red}{design.bold}    Error{design.reset} {string}")
 
 # --------------------
 
 def found(file: str):
-	print(f"{design.green}{design.bold}	 Found{design.reset} {file}")
+	print(f"{design.green}{design.bold}    Found{design.reset} {file}")
 
 def built(file: str):
-	print(f"{design.green}{design.bold}	 Built{design.reset} {file}")
+	print(f"{design.green}{design.bold}     Built{design.reset} {file}")
 
 def copied(file: str):
-	print(f"{design.green}{design.bold}	Copied{design.reset} {file}")
+	print(f"{design.green}{design.bold} Copied{design.reset} {file}")
 
 def reload(file: str):
 	print(f"{design.green}{design.bold} Reloading{design.reset} {file}")
