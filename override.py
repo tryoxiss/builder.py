@@ -1,9 +1,9 @@
 class Compiler:
-	def compile(string: str):
+	def compile(self, string: str):
 		print("Compiled :sparkles: (not really)")
 
 class AltCompiler:
-	def compile(string: str):
+	def compile(self, string: str):
 		print("Compiling with alternate compiler")
 
 class Test:
@@ -17,19 +17,25 @@ class Test:
 		print(self.name)
 	
 	def handle_template(self):
-		self.template_engine.compile()
+		self.template_engine.compile("kitteh")
 	
 	def run(self):
 		print("Running!")
+	
+	def test(self):
+		print("Wow!");
 
 class Meow(Test):
 	def get_name(self):
 		print("no")
+		self.test()
 
 
-Meow(template_engine=AltCompiler()).handle_template()
+# Meow(template_engine=Compiler()).handle_template()
 
-# meow = Meow()
+# Meow(template_engine=AltCompiler()).handle_template()
 
-# meow.get_name()
-# meow.handle_template()
+meow = Meow()
+
+meow.get_name()
+meow.handle_template()
