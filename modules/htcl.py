@@ -1,16 +1,5 @@
-import html.parser as LemmieViewItsSource
-import builder_modules.core_classes as classes
-
-from builder_modules.html_parser import HTMLParser as HtmlParser
-import builder_modules.log as log
-
-def compile(file: classes.File):
-	"""
-	The compiler interface for HTCL
-	"""
-
-	compiler = HtclTemplate()
-	compiler.feed(file.content)
+from modules.html import HTMLParser as HtmlParser
+import modules.log as log
 
 # NOTE TO KHAIM:
 # Scropes styles are done with a class added to all sectors in an object, and are per unique component.
@@ -18,7 +7,7 @@ def compile(file: classes.File):
 # same. As long as they are unique. I might try a class called `.scope_ComponentName` though? Since
 # you can only have one component named the same thing, that should be gaurnteed to be unique.
 
-class HtclTemplate(HtmlParser):
+class HtclCompiler(HtmlParser):
 	depth = 0
 
 	component_content = ""
@@ -83,7 +72,7 @@ def handle_py_block(code: str):
 	
 	# try:
 	exec(f"""
-import builder_modules.api as api
+import modules.api as api
 
 {code}""")
 	# except:

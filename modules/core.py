@@ -5,44 +5,14 @@ import os
 import shutil
 import time
 
-from builder import build as build
-import builder_modules.core_classes as classes
-import builder_modules.log as log
-import builder_modules.config as config
-import builder_modules.htcl_parser as parser
+# from runme import build as build
+import modules.log as log
+import modules.config as config
+import modules.htcl as parser
 
-from builder_modules.server import LiveServer
+from modules.decorators import expect as expect
+from modules.server import LiveServer
 from http.server import HTTPServer as HttpServer
-
-# This looks funky so lemmie explain.
-# This is a decorator, that returns a normal decorator. This lets
-# us take paramaters to the decorator. Make sense?
-# Yes... unfortuntely this nesting is needed...
-def expect(exception: str) -> any:
-	"""
-	A decorator that takes an argument that will print if the function fails,
-	used to avoid heavy nesting caused by try-except statements in public
-	python APIs.
-
-	Returns the type from the decorated function, or a string if it raised an
-	exception. (I would use `any | str` but cpython don't like that very much)
-
-	This is best used in the most limited context possible, as you can basically
-	consider the function it is used on to be an unsafe block*.
-
-	\* No it won't call them all the way up the stack lik regular try-except blocks,
-	but its still best to avoid them for blocks you know are safe.
-	"""
-	def decorator(function):
-		def wrapper(*args, **kwargs):
-			try:
-				result = function(*args, **kwargs)
-			except:
-				log.error(exception)
-				result = exception
-			return result
-		return wrapper
-	return decorator
 
 builder_cache_location = ".buildercache"
 

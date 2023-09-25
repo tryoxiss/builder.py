@@ -6,8 +6,10 @@ print_fatal = True
 # ┃
 
 import platform
-import builder_modules.design as design
-from builder_modules.core import __version__
+import modules.design as design
+# from modules.core import __version__
+
+__version__ = 2
 
 def intro(ip, lan):
 	icon = "[]"

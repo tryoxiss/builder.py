@@ -1,8 +1,7 @@
 from http.server import BaseHTTPRequestHandler as BaseHttpRequestHandler
 
-import builder_modules.config as config
-from builder import build as build
-from builder_modules.core_classes import File
+import modules.config as config
+from runme import build as build
 
 METHOD_NOT_ALLOWED = 405
 

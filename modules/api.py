@@ -1,9 +1,26 @@
-# The API you have access to by default in <?py/> blocks.
+# The API you have access to by default in <?py/> blocks. This is also
+# largely used by builder core and in your userspace file.
 
-import builder_modules.core_classes as classes
+import os
+import pathlib
 
-def meow():
-	print("Mewooo!!")
+import modules.config as config
+
+def confirm_output_exists(path):
+	if os.path.exists(get_output_variant(path)) == True:
+		return
+
+	os.mkdir(get_output_variant(path))
+
+def get_output_variant(path: pathlib.Path) -> str:
+	"""
+	Takes a path to a file and replaces the first case of the input directory
+	with the output directory to create the output files path.
+	"""
+	return str(path).replace(config.content.directory, config.output.directory, 1)
+
+def write(path: str = f""):
+	pass
 
 def htcl(string: str):
 	"""
@@ -40,7 +57,7 @@ def paginate(per_page: int):
 	behavour cannot be replicated.
 	"""
 
-def get_posts_from_tag(number, *, tag="untagged", offset=0) -> list[classes.File]:
+def get_posts_from_tag(number, *, tag="untagged", offset=0):
 	"""
 	Gets <number> pages from the provided tag starting at the
 	offset.

@@ -1,25 +1,17 @@
-import builder as userspace
 import os
 
-class File:
+class BuilderFile:
 	"""
 	A custom file class for builder.py.
 	"""
 
-	content = str
-	path = str
-	header_variables = {}
+	content: str = str
+	path: str = str
+	frontmatter: dict = {}
 
 	def __init__(self, path: str):
-		# Import current content file and pass to the builder
-
-		# Opens the buildable file in read only
 		self.content = open(f'{path}', "r").read()
-
-		# Stores the files path
 		self.path = path
-
-		# log.debug("File: ", self.name, " at location: ", self.path " has been created")
 
 	def name(self) -> str:
 		"""
