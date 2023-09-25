@@ -1,6 +1,7 @@
 # don't worry about these for now :3
 import modules.builder as builder
 import modules.api as api
+import modules.config as config
 
 class BuilderPyExample(builder.Builder):
 	pass
@@ -10,17 +11,4 @@ class BuilderPyExample(builder.Builder):
 # to edit `modules/builder.py` and remove them!
 BuilderPyExample().blueprint()
 
-
-
-# file = builder.File("content/lyrics.txt")
-
-# print(file.content)
-# print(file.name())
-# print(file.path)
-
-import modules.file as wut
-
-a = wut.BuilderFile("lyrics.txt")
-
-print(a.content)
-print(a.path)
+builder.Builder().build_all(config.content.directory, 0)

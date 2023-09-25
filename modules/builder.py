@@ -25,20 +25,95 @@ class File:
 			file = open(path)
 		except FileNotFoundError:
 			log.error(f"File '{path}' does not exist.")
+			return
 		except:
 			log.error(f"An unknwon error occured when opening file '{path}'.")
+			return
 
 		self.content = file.read()
-		self.path = path
+		self.path = str(path)
+
 
 	def extension(self):
-		return self.path.rsplit('.', 1)[-1]
+		return f".{self.path.rsplit('.', 1)[-1]}"
+
 
 	def name(self):
 		return self.path.rsplit('/', 1)[-1]
 
+
 	def full_name(self):
 		pass
+
+
+	def path_only(self):
+		return self.path.rstrip(self.name())
+
+
+	def make_path_fancy(self, path: str) -> str:
+		"""
+		Note: normally it goes to {path}/index.html, but if you had
+		/posts/kittentd-devlog-1/
+			   kittentd-devlog-1.md
+			   screenshot1.png
+			   (etc)
+		
+		then it would get written to /posts/kittentd-devlog-1/kittentd-devlog-1/index.html, which is ugly. So if the files name
+		is the same as the directories or is `index` we want it to not create another directory.
+		
+		we also want to allow for pattersn like /posts/12/sep/2023/ and allow writing to multiple locations.
+		
+		This function SHOULD address this!
+		"""
+
+		if path.endswith(f"index.{self.extension()}"):
+			path = path.rstrip(f"index.{self.extension()}")
+			print("ends in index.<extension>")
+
+		if path.endswith(f"{self.name()}"):
+			print("Hah?")
+		
+		print(f"{self.name().rstrip(self.extension())}/{self.name()}")
+
+
+		# This bit is a bit ew but basically if its something like
+		# */name1/name1.* then we just strip the end bit and replace
+		# it with index.html to make it work the way we want it to.
+
+		# example:
+		# posts/post-name/post-name.md
+		if path.endswith(f"{self.name().rstrip(self.extension())}/{self.name()}"):
+			print("VHAD!!")
+
+			path = f"{path.rstrip(self.name())}index"
+			print(path)
+
+		return path
+
+
+	def write(self, path: str, fancy=True) -> None:
+		"""
+		Writes a compiled file to the absolute path provided. If fancy is true, it will
+		use the latest in blood sweat and tears technology to add a trailing / to the end
+		of the URL and prevent weird doubble ups like `/posts/post-name/post-name.html`.
+
+		This lets you more easily put media in the same directory as your post, for example
+		/posts/post-name/ could contain figure1.png and post-name.md or index.md and still
+		show up at /posts/post-name/. I find it an easier way to deal with media for articles,
+		at least.
+
+		[!] DANGER: This function is blind! It will overwrite anything at the desired path!
+		"""
+
+		if fancy == True:
+			path = self.make_path_fancy(path)
+
+		os.makedirs(self.path_only(), exist_ok=True)
+
+		file = open(f"{path.rstrip(self.extension())}.html", "w")
+		file.write(self.content)
+		file.close()
+
 
 class Builder:
 
@@ -62,7 +137,11 @@ class Builder:
 		self.template_engine = template_engine()
 		self.content_compiler = content_compiler()
 
+		if os.path.isdir(config.output.directory) == False:
+			os.mkdir(config.output.directory)
+
 		self.ready()
+		self.validate()
 
 
 	def ready(self):
@@ -70,6 +149,11 @@ class Builder:
 		Overwriteable method that runs on initalization,
 		"""
 		pass
+
+
+	def validate(self):
+		pass
+		# make sure inputs are valid
 
 
 	def construct(self):
@@ -89,18 +173,65 @@ class Builder:
 		pass
 		# serving code
 
+
+	def build_all(self, child, recursion):
+		"""
+		Recursively iterates over the current contents of the provided directory and runs
+		either the build, copy, or compile functions on them based on its extension.
+		"""
+		recursion += 1
+
+		if recursion >= config.max_recursion:
+			log.fatal("Recursion limit exeeded: build failed! core.py:build_all_files")
+
+		for child in pathlib.Path(child).iterdir():
+			if os.path.isdir(child) == True:
+				api.confirm_output_exists(str(child))
+				self.build_all(child, recursion)
+				continue
+
+			self.handle_buildable_file(child)
+
+
+	def handle_buildable_file(self, path):
+
+		if path.suffix in config.content.extensions:
+			# try:
+			self.build(File(path))
+			# except:
+				# log.error("build() function invalid.")
+
+		elif path.suffix in config.components.extensions:
+			try:
+				self.build_template(path)
+			except:
+				log.error("build_template() function invalid.")
+
+		else:
+			try:
+				self.copy(path)
+			except:
+				log.error("copy() function invalid.")
+
 	# Please overwrite us!
 	# vvvvvvvvvvvvvvvvvvvv
 
-	def build(self, file):
+	def build_template(self, path):
+		print(f"Template: {path}")
+
+
+	def build(self, file: File):
 		"""
 		Overwriteable method that builds content files.
 		"""
-		
-		pass
+		print(f"---->> {file.path}")
+
+		file.content = self.content_compiler.feed(file.content)
+
+		file.write(api.get_output_variant(file.path))
 
 
-	def finalize(self, file):
+	def finalize(self):
 		"""
 		Overrideable method that is by default called at the end of consturction.
 		"""
@@ -110,7 +241,10 @@ class Builder:
 		"""
 		Overwriteable method that copies a file.
 		"""
-		# shutil.copyfile(child, get_output_variant(child))
+
+		# api.confirm_output_exists(path)
+
+		shutil.copyfile(path, api.get_output_variant(path))
 
 
 	def complete(self):
@@ -118,62 +252,3 @@ class Builder:
 		Overwriteable method that runs after all files have been built. This does not by default run when serving.
 		"""
 		pass
-
-
-def build_all():
-	"""
-	Loops over every file in the main directory for the input content directory.
-	Create the output directory if the output directory does not exist and
-	the input content directory was found. 
-	Search for buildable files if the input content directory was found.
-	"""
-	for child in pathlib.Path().iterdir():
-		# We do not need to check for files if it is the content directory
-		if (child.name != config.content.directory): continue
-
-		# Make sure it is not a file named the same as the content directory
-		if (os.path.isfile(child) == True): continue
-
-		# Create the directory for output
-		api.create_output_directory()
-
-		build_all_files(child, 0)
-
-
-def build_all_files(child, recursion):
-	"""
-	Recursively iterates over the current contents of a directory.
-	
-	If it is a directory that does not yet exist in the output, create the
-	output file.
-	
-	If it is a file that is the correct file extension and the output files
-	modify date is younger then the input, build a new file to output. If the
-	file is older, then ignore.
-	
-	If a file is the wrong extension, do the same actions but copy the file
-	instead of building.
-	"""
-	recursion += 1
-
-	if recursion >= config.max_recursion:
-		log.fatal("Recursion limit exeeded: build failed! core.py:build_all_files")
-		exit()
-
-	for child in pathlib.Path(child).iterdir():
-		if os.path.isdir(child) == True:
-			api.confirm_output_exists()
-
-			build_all_files(child, recursion)
-			continue
-
-		if config.content.extensions.__contains__(child.suffix):
-			# build_file(str(child))
-			pass
-		# Else if the file is a mentioned compilation only file, compile it
-		elif config.components.extensions.__contains__(child.suffix):
-			# htcl_compile(str(child))
-			pass
-		else: # This should be files such as images, JS documents, and others
-			shutil.copyfile(child, api.get_output_variant(child))
-			# log.copied(f"{child}")

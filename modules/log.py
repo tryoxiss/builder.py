@@ -48,6 +48,8 @@ def fatal(string: str):
 	if print_fatal == False: return
 	print(f"{design.red}{design.bold}    Fatal{design.reset} {string}")
 
+	exit()
+
 def error(string: str):
 	if print_fatal == False: return
 	print(f"{design.red}{design.bold}    Error{design.reset} {string}")
