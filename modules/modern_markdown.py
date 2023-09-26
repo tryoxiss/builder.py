@@ -15,6 +15,7 @@ class ModernMarkdownConfig:
 		"__": "u", # DEPRECATED
 		"^": "sup",
 		"_": "sub",
+		'"': "q",
 
 		"~~": "del",
 		"++": "ins",
@@ -78,7 +79,7 @@ class ModernMarkdownConfig:
 	do_tables = True
 
 	do_callouts = True
-	callout_components = { 
+	callout_components = {
 		"info": "Info",
 		"warn": "Warn",
 		"question": "Question",
