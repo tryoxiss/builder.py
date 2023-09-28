@@ -6,6 +6,19 @@ import pathlib
 
 import modules.config as config
 
+# NOTE TO FUTURE ME:
+# Most of these things should not be in the API! They should be elsewhere! Pretty much only This fits in here.
+
+class This:
+	def __init__(
+		url: str,
+	):
+		pass
+		# give tis all the data that is accessed via the api
+
+	def modified_datetime():
+		pass
+
 def confirm_output_exists(path):
 	if os.path.exists(get_output_variant(path)) == True:
 		return
