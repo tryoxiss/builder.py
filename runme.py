@@ -11,4 +11,4 @@ class BuilderPyExample(builder.Builder):
 # to edit `modules/builder.py` and remove them!
 BuilderPyExample().blueprint()
 
-builder.Builder().build_all(config.content.directory, 0)
+#builder.Builder().build_all(config.content.directory, 0)
