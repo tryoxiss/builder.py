@@ -9,6 +9,6 @@ class BuilderPyExample(builder.Builder):
 # You can specify your compilers with keyword arguments, or override thier functions!
 # We have provided a few default values though. If they are too heavy for your liking, feel free
 # to edit `modules/builder.py` and remove them!
-BuilderPyExample().blueprint()
+# BuilderPyExample().blueprint()
 
-#builder.Builder().build_all(config.content.directory, 0)
+builder.Builder().build_all(config.content.directory, 0)
