@@ -5,7 +5,6 @@ import pathlib
 import modules.config as config
 
 import modules.api as api
-import modules.file as file
 import modules.log as log
 
 from modules.decorators import expect as expect
@@ -224,7 +223,7 @@ class Builder:
 		"""
 		Overwriteable method that builds content files.
 		"""
-		print(f"---->> {file.path}")
+		print(f"---->> {file.path.rstrip(' ')}")
 
 		file.content = self.content_compiler.feed(file.content)
 
