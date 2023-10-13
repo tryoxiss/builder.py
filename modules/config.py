@@ -12,4 +12,20 @@ class output:
 	directory: str  = "target"
 	exclude_tags: list[str] = ["#exclude", "#draft"]
 
+	always_inline: bool = True
+	prefer_figures: bool = True
+
+	# syntax_stylesheets: dict = {
+	# 	"resources":
+	# 	{
+	# 		"styles":
+	# 		{
+	# 			Tokens.STRONG: "strong.css"
+	# 		}
+	# 	}
+	# }
+
+# class verification:
+# 	validate_html5: bool = False
+
 max_recursion = 64
