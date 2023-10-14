@@ -68,9 +68,6 @@ class File:
 		if path.endswith(f"index.{self.extension()}"):
 			path = path.rstrip(f"index.{self.extension()}")
 			print("ends in index.<extension>")
-
-		if path.endswith(f"{self.name()}"):
-			print("Hah?")
 		
 		print(f"{self.name().rstrip(self.extension())}/{self.name()}")
 
@@ -82,8 +79,6 @@ class File:
 		# example:
 		# posts/post-name/post-name.md
 		if path.endswith(f"{self.name().rstrip(self.extension())}/{self.name()}"):
-			print("VHAD!!")
-
 			path = f"{path.rstrip(self.name())}index"
 			print(path)
 

@@ -4,6 +4,8 @@
 import os
 import pathlib
 
+import time
+
 import modules.config as config
 
 # NOTE TO FUTURE ME:
@@ -17,6 +19,9 @@ class This:
 		# give tis all the data that is accessed via the api
 
 	def modified_datetime():
+		"""
+		TODO. Returns a struct_time [?maybe? theres no time class which is stupid...] in UTC.
+		"""
 		pass
 
 def confirm_output_exists(path):
@@ -25,40 +30,12 @@ def confirm_output_exists(path):
 
 	os.mkdir(get_output_variant(path))
 
-# def get_output_variant(path: pathlib.Path) -> str:
-# 	"""
-# 	Takes a path to a file and replaces the first case of the input directory
-# 	with the output directory to create the output files path.
-# 	"""
-# 	return str(path).replace(config.content.directory, config.output.directory, 1)
-
-# def strip_file(path: str) -> str:
-#	a
-
 def get_output_variant(path: str) -> str:
 	"""
 	Takes a path to a file and replaces the first case of the input directory
 	with the output directory to create the output files path.
 	"""
 	return str(path).replace(config.content.directory, config.output.directory, 1)
-
-
-def make_path_fancy(path: str) -> str:
-	# Note: normally it goes to {path}/index.html, but if you had
-	# /posts/kittentd-devlog-1/
-	#	   kittentd-devlog-1.md
-	#	   screenshot1.png
-	#	   (etc)
-	#
-	# then it would get written to /posts/kittentd-devlog-1/kittentd-devlog-1/index.html, which is ugly. So if the files name
-	# is the same as the directories or is `index` we want it to not create another directory.
-	#
-	# we also want to allow for pattersn like /posts/12/sep/2023/ and allow writing to multiple locations.
-
-	if path.endswith("index.html"):
-		path = path.rstrip("index.html")
-
-	return path
 
 
 def create_output_directory():
