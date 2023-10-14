@@ -1,5 +1,13 @@
 # This file makes use of classes to organise variables. That is why they are lowercase.
 
+import platform
+
+os = platform.system()
+
+match os:
+	case 'Windows': OS_PATH_DELIMINATOR = '\\'
+	case _: OS_PATH_DELIMINATOR = '/'
+
 class content:
 	directory: str = "content"
 	extensions: list[str] = [".md"]

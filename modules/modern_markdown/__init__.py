@@ -155,8 +155,6 @@ class ModernMarkdownCompiler:
 		if since_last_token > 0:
 			line.append(string[len(string) - since_last_token:len(string)])
 
-		print()
-
 		return line
 
 
@@ -173,7 +171,7 @@ class ModernMarkdownCompiler:
 				continue
 
 			next_similar_token = line[index + 1:].index(token) + (index + 1)
-			line[next_similar_token] = f"<{self.config.simple_inline[token]}/>"
+			line[next_similar_token] = f"</{self.config.simple_inline[token]}>"
 			line[index] = f"<{self.config.simple_inline[token]}>"
 		
 		return line

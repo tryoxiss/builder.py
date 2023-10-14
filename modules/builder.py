@@ -1,6 +1,7 @@
 import shutil
 import os
 import pathlib
+import platform
 
 import modules.config as config
 
@@ -38,7 +39,7 @@ class File:
 
 
 	def name(self):
-		return self.path.rsplit('/', 1)[-1]
+		return self.path.rsplit(config.OS_PATH_DELIMINATOR, 1)[-1]
 
 
 	def full_name(self):
