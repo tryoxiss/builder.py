@@ -169,7 +169,7 @@ class Builder:
 		# serving code
 
 
-	def build_all(self, child, recursion):
+	def build_all(self, recursion, child=config.content.directory):
 		"""
 		Recursively iterates over the current contents of the provided directory and runs
 		either the build, copy, or compile functions on them based on its extension.
@@ -182,7 +182,7 @@ class Builder:
 		for child in pathlib.Path(child).iterdir():
 			if os.path.isdir(child) == True:
 				api.confirm_output_exists(str(child))
-				self.build_all(child, recursion)
+				self.build_all(recursion, child=child)
 				continue
 
 			self.handle_buildable_file(child)

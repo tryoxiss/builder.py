@@ -14,5 +14,5 @@ import time
 # BuilderPyExample().blueprint()
 
 # start = time.time_ns()
-builder.Builder().build_all(config.content.directory, 0)
+BuilderPyExample().build_all(0)
 # print(f"This took {(time.time_ns() - start) / 1000}mcs or {(time.time_ns() - start) / 1_000_000}ms")
