@@ -17,10 +17,10 @@ class ModernMarkdownConfig:
 		"_": "sub",
 		'"': "q",
 
-		"~~": "del",
+		"-~": "del",
 		"++": "ins",
 
-		"~+": "s",
+		"~~": "s",
 
 		"==": "mark",
 		"===": "mute",
