@@ -1,6 +1,9 @@
 # builder.py
 An extensive static site generator built in python. Designed for the real world, builder.py comes with components and a modern markdown compiler out of the box with minimal setup. Unlike most static site generators, it grows with you as your site needs do.
 
+> **Important**
+> We have migrated this repository to [codeberg](https://codeberg.org/tryoxiss/builder.py) due to github using public repos as AI training data. This repository will be completely purged at some point.
+
 > The anime girl SSG.
 > - Tryoxiss
 
